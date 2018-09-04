@@ -1,0 +1,21 @@
+\chapter{Conclusion}
+\label{ch:conclusion}
+
+This thesis presents a new technique for producing crystalline conditions by analyzing the results of existing screens based on novelty search. Our approach is a genetic algorithm with novelty parameter as the fitness score. The novelty metric used is the average distance of an individual to its $k$ nearest neighbors in the search space. We have compared the results of our approach with GenScreen and AED based on previous wet lab experiments. 
+For protein AbIPPase, there were 6 common crystalline conditions with AED and 9 common crystalline conditions with GenScreen. 
+
+We have also conducted new wet lab experiments for the ConA protein. Our method suggested 1517 new cocktail combinations as compared to 702 in GenScreen.
+%These experiments led 
+%The output file statistics for ConA protein showed that our approach resulted in 1517 new cocktail combinations as compared to 702 in GenScreen.
+In the experiments conducted in the wet lab, our approach generated 96 crystalline conditions for the protein ConA. The total numbers of distinct buffers, distinct precipitants, and distinct salts for our algorithm is 7, 13, and 13 respectively. On the other hand, AED utilized 6 buffers, 12 precipitants, and 9 salts, and GenScreen used 6 buffers, 10 precipitants, and 11 salts. This variety in crystalline conditions shows that our algorithm explores the chemical search space more effectively than GenScreen and AED.
+
+Our algorithm can further be improved by including multiple salts and precipitants in the algorithm instead of using only one buffer, precipitant and salt. The implementation can even be extended to consider a separate analysis of anions and cations.
+
+One of the issues with reading screen files is inconsistent naming of the reagents (chemicals). The same chemical can appear with different names across multiple screens. For example, `Polyethylene glycol 8000', `PEG 8000' and `PEG 8K' are different representations of the same chemical. A standard naming of chemicals is required in order to calculate the distance between chemicals effectively and also not  to misinterpret the same chemicals as different. Further research can be done in resolving the naming discrepancies of reagents.
+
+By storing and reusing the feature vector of individual cocktails in populations, we improved the runtime of our algorithm by a factor of 10 in our experiments. This technique can be applied in other genetic algorithm applications as well, especially when the fitness function used is complex and inefficient to compute.
+
+Based on novelty search, our method explores the chemical space better than AED and GenScreen. This does not necessarily mean our method will generate more crystalline conditions than others. If AED and GenScreen do not generate sufficient number of crystalline conditions, this may be due to their weak exploration of the chemical space. Especially, in such cases, to find additional crystalline conditions our method is a very good candidate of exploring the chemical space and generating novel crystalline conditions.
+
+%In this way, this thesis meets its goal of exploring unexplored territories of chemical space to find a diverse set of crystalline conditions.
+

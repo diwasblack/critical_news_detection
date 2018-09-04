@@ -1,0 +1,46 @@
+\chapter{Introduction}
+\label{ch:background}
+
+\section{Motivation} \label{intro:motivation}
+Protein crystallization screening is the process of identifying experimental conditions suitable for the formation of large protein crystals. Some of the factors that affect crystal growth are salts, pH of buffer, temperature, molar concentration, etc \cite{IntroFactor,History,McPherson}. The goal of screening is to find a list of combinations of these factors that are likely to produce a successful outcome for proteins. In other words, the goal of screening is to develop crystalline conditions suitable for determining the structure of a protein. 
+
+Many screening methods have been developed for building protein crystallization screens. Carter et al. \cite{carter1979protein} showed that incomplete factorial design could be used for finding successful crystalline conditions. With sparse matrix sampling \cite{jancarik1991sparse} and analyzing the chemical space suitable for crystalline conditions, commercial screens have been developed. While these commercial screens have produced successful results for some proteins, similar results have not been obtained for more complex proteins. However, the results of these commercial screens can still be analyzed for experimenting with new sets of conditions.
+
+Analyzing the output of the initial set of experiments to suggest new conditions to be tested is challenging when there are few or no successful outcomes. When the data is highly skewed (i.e., the significant majority of trials yield non-crystals) \cite{Skewed}, the computational models such as the regression  or the   classification methods are unlikely to produce a reliable model. Despite this complication, neural networks have been shown to output crystalline conditions in the past \cite{delucas2003efficient}. 
+Even with models that are built based on prior results that yielded crystalline conditions, the chemical space will not necessarily have been explored effectively, as there is a possibility that the new test conditions is similar to the original test conditions. It is important to come up with a set of algorithms that can explore the chemical space effectively. In this thesis, we explore the usage of genetic algorithms in suggesting novel conditions. 
+
+\section{Genetic Algorithm} \label{intro:genetic}
+Genetic algorithm  is an evolutionary algorithm inspired by the process of biological evolution. Like in nature, the evolution starts with a population of individuals, and iteratively, the genomes of the fittest individuals are propagated to create the next generation of individuals. There are many variants of genetic algorithms with possible modifications to its steps. Variations of genetic algorithms could be developed by changing the encoding of the chromosomes, or the fitness functions, or setting different mutation rates, etc.  
+
+Genetic algorithm is generally used to solve optimization and search problems. It is very suitable for protein crystallization as its output is a population of cocktails (conditions). Acharya \cite{SamyamThesis} has shown  how genetic algorithms can be applied for protein crystallization screening. However, it is very likely of the genetic algorithm only exploring certain parts of the chemical search space, thereby missing cocktails that are further away from the original population. Usually, the mutation rate helps explore larger chemical space leading to  the generation of novel conditions.
+%The major novelty is introduced by the mutations.
+
+\section{Research Problem} \label{intro:research}
+There is a problem in developing novel conditions from previous experiments. To build a model based on the analysis of previous experiments, and to expect new crystalline conditions different from the original set of conditions, would require obtaining new information from a stagnant data set.
+
+This thesis deals with the problem of determining a combination of conditions that can produce large protein crystals. For producing these large novel crystals, we propose the use of a variant of the genetic algorithm that can explore unchartered territories of the chemical search space.
+To achieve this, we will modify the genetic algorithm such that it uses a fitness function that can directly consider the novelty of an individual (i.e., the most novel or different individuals are rewarded positively \cite{Novelty}). 
+We will then propose an appropriate distance metric to measure the novelty. 
+In using a fitness function that solely depends on novelty, the algorithm has an additional advantage, that it is less likely to prematurely converge to a locally optimal solution. After all, the goal here is to discover novelty, not to converge to some optimized solution.
+
+The major cost associated with this approach is to compute the novelty of individuals (or cocktails in this context). Novelty depends on how distinct an individual is by using a fitness function (the novelty metric of a cocktail) that favors more distinct individuals. The novelty of an individual is not only checked within its population, but also with all previous populations. 
+%nin the complexity involved in calculating the fitness score, i.e., the novelty metric of a cocktail. The novelty metric calculation depends upon the computation of feature vectors of the cocktails. 
+One possible way to tackle this problem is to observe whether the cocktails do reappear in subsequent generations or not. And if there is a significant number of overlaps, the feature vectors for those cocktails can be reused. This would help in decreasing the running time of the algorithm.
+
+In summary, this thesis attempts to answer the following question:
+\begin{itemize}
+\item Can exploring a larger area of the chemical search space yield additional crystalline conditions?
+\item Can the runtime of the algorithm be decreased by reducing the overhead associated with the fitness score calculation of the cocktails?
+\end{itemize}
+
+\section{Thesis Organization} \label{intro:organization}
+
+This thesis is divided into five sections. %Section I gives a brief introduction of this research project. 
+Chapter 2 describes the background in which we discuss some of the related works that have been done in protein crystallization screening. Chapter 3 focuses on the adaptation of the genetic algorithm while designing the fitness function. In Chapter 4, we discuss the experiments that were conducted in the lab and also compare the results of the algorithm described in this thesis with those of other algorithms. Chapter 5 concludes the thesis and proposes possible future enhancements.
+
+
+
+
+
+
+
