@@ -1,1 +1,95 @@
-\chapter{Method} \label{ch:background}
+\chapter{Method} \label{method}
+
+% Data Acquisition
+\section{Data Acquisition}
+Training a classifier such as a SVM requires gathering as much data as possible because the algorithm generalizes better when it has been trained on a sufficiently large dataset. As per the definition of critical news, there are certain characteristics that a text should have in order to be labeled as a critical news. Due to this reason, a dataset does not exists that fits the categorization of text into critical and non-critical news. This prompted the creation of a new dataset for critical and non critical news.\par
+The unlabelled dataset was obtained from the Tweets of the following Twitter users using the Twitter API\footnote{\url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html}} and python library python-oauth2\footnote{\url{https://github.com/joestump/python-oauth2}}.
+
+\begin{itemize}
+    \item NYPD NEWS\footnote{\url{https://twitter.com/nypdnews}}
+    \item Metropolitan Police\footnote{\url{https://twitter.com/metpoliceuk}}
+    \item  Victoria Police\footnote{\url{https://twitter.com/VictoriaPolice}}
+    \item Seattle Police Dept\footnote{\url{https://twitter.com/SeattlePD}}
+    \item NYPDCounterterrorism\footnote{\url{https://twitter.com/NYPDCT}}
+\end{itemize}
+
+The data was stored locally in a sqlite\footnote{\url{https://www.sqlite.org/index.html}} database with the help of peewee\footnote{\url{http://docs.peewee-orm.com/en/latest/}} python library. A sample of data obtained from Twitter is as follows,
+
+\begin{verbatim}
+Watch: @PIX11News  gives an inside look at our #NeighborhoodPolicing
+meetings on how they are connecting local NYPD police officers with
+the community. https://t.co/D6K5DWxWWm https://t.co/NM0AWpPgja
+\end{verbatim}
+
+Each tweet was then manually labeled as either a critical news or non critical news and store in the database. The statistics of dataset is shown in \tableref{tbl:dataset_statistics}
+
+\begin{table}
+\begin{center}
+\caption{Dataset statistics}
+\label{tbl:dataset_statistics}
+\begin{tabular}{@{}lccc@{}}
+\toprule 
+\rule[-1pt]{0pt}{14pt}Label&Number of samples\\
+\midrule 
+\rule[-1pt]{0pt}{14pt}Critical&1548\\
+\rule[-1pt]{0pt}{14pt}Non-critical&595\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+% Text Processing
+\section{Text Processing}
+\subsection{Tokenization}
+Tokenization is the first step in processing a text which converts the text into a sequence of words. The tokenization is done with the help of NLTK\cite{loper2002nltk} python library which discards everything except words containing English alphabets. Furthermore, a regular expression was used to remove the URLs from the text.
+
+\subsection{Stop word filtering}
+There are several words such as "a", "the", "you" etc which are very common across every text. A significant improvement can be seen in most text classifiers by filtering out such words from the feature set\cite{silva2003importance}. These words that are generally filtered out during the text processing are known as stop words. The NLTK library contains lists of stop words that can be used to filter the tokens. For each token, a comparison is made with stop words one at a time and if a match is found the token is discarded from the feature set. The stop words for English text in NLTK library are as follows,
+
+['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', "don't", 'should', "should've", 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', "aren't", 'couldn', "couldn't", 'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn', "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"]
+
+In addition to the above words, following words were also added to the stop word list in order to help the classifier generalize better.
+
+['nypdprotect', 'nypdconnect', 'nypd', 'nypdoneil', 'nypdpsa', 'nypdchiefofdept', 'nypdbklynnorth', 'nypdtransit', 'nypddetect', 'nypdnew', 'nypdspecialop', 'nypdchiefpatrol', 'nypdhighway', 'nypdtransport', 'nypdconnect', 'nypdoneil', 'nycsafenypdorg', 'nypdct', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'seattlepd', 'seattledot', 'seattlefir', 'seattle', 'brooklyn', 'manhattan', 'one', 'two', 'three', 'four', 'five', 'six', 'vicpolicenew', 'victoriapolic', 'jointhemet', 'seattlefir', 'metpoliceuk', 'richmond', 'nycgov', 'https', 'nyc', 'nycdot']
+
+\subsection{Stemming}
+Stemming is the process of reducing the inflected words to their stem or root. For example, the word "happiness" can be reduced to it's stem "happy", the word "loved" can also be reduced to it's stem "love". By reducing the words to their stem, not only does the number of feature decrease the feature set itself improves as the inflected words of a same stem will be considered as a single feature instead of multiple features. The implementation of Porter's algorithm\cite{porter1980algorithm} found in NLTK was used for stemming the words.
+
+\subsection{TF-IDF}
+TF-IDF\cite{sparck1972statistical} is rather simpler feature weighing scheme that assigns weight to the words as per the occurrence in the text and it's importance in the corpus. TF-IDF for a term $t$ in a document $d$ is calculated as a product of two terms; Term Frequency and Inverse Document Frequency. 
+\begin{equation}
+    tfidf(t, d) = tf(t, d) * idf(t)
+\end{equation}
+
+The TF for a term in a document is the count of the term in the document. The IDF of a term is calculated as follows,
+\begin{equation}
+    idf(t) = \log{\frac{N}{1 + df(t)}}
+\end{equation}
+
+Where, $N$ is the number of total numer of documents and $df(t)$ is the number of documents that contains the term $t$.\par
+The vectors thus obtained are then normalized using the $L^2$ norm.
+\begin{equation}
+    v_{norm} = \frac{v}{\lVert v \rVert}
+\end{equation}
+
+The scikit-learn\footnote{\url{http://scikit-learn.org/stable/index.html}} python library is used to obtain the TF-IDF values for the words.
+
+% Text Processing
+\section{Classification}
+\subsection{Support Vector Machine}
+Support Vector Machines non-linearly map the input vectors to a very high dimensional feature space and tries to construct a linear decision surface in the new feature space \cite{cortes1995support}. The SVM can use the kernel trick to change the structure of decision surface\cite{cortes1995support}. Some kernel that can be used with SVM are as follows,
+
+Polynomial Kernel
+\begin{equation}
+    \label{eq:polynomial_kernel}
+    K(x, x^{'}) = {(x.x^{'} + 1)}^{d}
+\end{equation}
+
+RBF Kernel
+\begin{equation}
+    \label{eq:rbf_kernel}
+    K(x, x^{'}) = exp(- \frac{{\lVert x - x^{'} \rVert}^{2}}{2 \sigma^{2}})
+\end{equation}
+Where, $x$ and $x^{'}$ are the vector inputs, $d$ is the degree of the polynomial to use, and $\sigma$ is the smoothness parameter.
+
+For the purpose of classifying critical and non-critical news, implementation of SVM with RBF kernel found in scikit-learn library was used.

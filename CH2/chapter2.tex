@@ -1,5 +1,31 @@
-\chapter{Background} \label{ch:background}
+\chapter{Background} \label{background}
 
-\section{Related Work} \label{sec:bg-related}
+% Text Representation
+\section{Text Representation}\label{feature}
+The first step in analyzing text is to convert it into representations that can be used with analysis algorithms. The Vector Space Model or Bag-of-words model represents the text as a collection of words without regards to the sequence in which they occur. Usually, the number of features that is obtained from the VSM representation is generally high as the number of unique words is generally high. So, feature extraction algorithms such as Information Gain, Gini Index, Chi square statistics, Latent Semantic Indexing, Supervised Clustering, Linear Discriminant Analysis, and Linearized Singular Value Decomposition can be used for selecting the relevant features \cite{aggarwal2012survey}. \par
+Lately, there has been a significant interest and development in word embeddings\cite{mikolov2013distributed}\cite{pennington2014glove}\cite{bojanowski2017enriching}. In word embeddings, each word is represented by a vector in such a way that similar words will have similar vectors\cite{goldberg2014word2vec}. The word vectors are then combined to create a vector representation of the text. This will force two text that are similar in content but different in words to have similar vector representation.
 
-\section{Summary} \label{rel:summary}
+% Classfication
+\section{Classification}\label{classification}
+Text classification assigns documents to one or multiple categories by analyzing the content. If the label assignment is explicit it is known as hard assignment, whereas if probability values are assigned to labels it is known as soft assignment. Techniques such as Decision Trees, Rule Base Classifier, SVM\cite{cortes1995support}, Neural Networks, and Bayesian Classifiers can be used for text classification\cite{aggarwal2012survey}. It has been theoretically and empirically shown that the SVMs are very well suited for the text categorization problem\cite{joachims1998text}.
+
+% Related Work
+\section{Related Work} \label{related_works}
+Although identifying fake news in itself is not a new problem, it is not easy to construct an automated algorithm that can do so\cite{shu2017fake}.
+
+For the BuzzFeedNews\footnote{\url{https://github.com/BuzzFeedNews/2016-10-facebook-fact-check}} dataset, a naive Bayes classifier was able to achieve an accuracy of 75 percent on the test set\cite{granik2017fake}. Which is an impressive performance given the simplicity of the model. 
+
+Training multiple classification models on the Signal Media dataset showed that the Stochastic Gradient Descent and SVM model outperformed models such as Naive Bayes, Bounded Decision Trees, Gradient Boosting, and Random Forests \cite{gilda2017evaluating} on a dataset.
+
+The LIAR\footnote{\url{https://www.cs.ucsb.edu/~william/data/liar_dataset.zip}} is a large dataset that contains thousands of training, validation, and testing data for fake news detection. For such a dataset even complex models such as bi-directional long short term memory network and convolution neural network barely perform better than SVM and regularized logistic regression model\cite{wang2017liar}. However it was shown that adding meta-data information to the text significantly improved the performance of the models\cite{wang2017liar}.
+
+The RST\cite{mann1988rhetorical} modeling is an useful method that describes a text in terms of the structure and relations that holds between the parts of the text. The RST model has been successfully used in combination with VSM model for text processing in the process of predicting the veracity of the text\cite{rubin2015towards}. The model thus created used a clustering algorithm for predictive analysis on the US National Public Radio's weekly radio show "Bluff the Listener" data to distinguish a truthful news from a deceptive one. It was able to achieve an accuracy of 56 percent on the test set which was not significantly better than the prediction done by a random chance algorithm\cite{rubin2015towards}.
+
+The generally unsatisfactory performance of detecting fake news from content only has lead researchers to investigate the relation between users on social media and news. The results from the experiment suggest that there are users who are more likely to trust fake news than real news and the features of these users are different from those who are likely to trust real news\cite{shu2018understanding}.
+
+Noting a relation between fake news and clickbait(content whose main purpose is to attract attention and encourage visitors to click on a link to a particular web page) articles, researchers have even proposed a clickbait detection system as a means of identifying fake news\cite{chen2015misleading}. It was suggested that a hybrid system capable of identifying both textual and non textual cue might yield a better classifier for clickbait detection\cite{chen2015misleading}.
+
+Some models were able to combine the news content information with dynamic information such as historical user responses to build a fake news detection model that was able to outperform other models that predicted fake news on the basis of news content only\cite{qian2018neural}.
+
+Several researchers have pointed out that the fake news detection system should be a semi automated system designed to augment the human judgement \cite{conroy2015automatic}
+\cite{chen2015news}.

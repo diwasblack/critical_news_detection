@@ -1,1 +1,14 @@
-\chapter{Experiments and Results} \label{ch:results}
+\chapter{Experiments and Results} \label{result}
+
+\section{Dataset}
+In order to gain insight into the dataset it is better to first visualize the data. Visualizing high dimensional data requires reducing the dimensions to either 2 or 3. The t-SNE\cite{maaten2008visualizing} is an excellent algorithm which is well suited for such task. The algorithm takes the vectors obtained from the text processing step and produces a 2D vector for each document. The reduced vectors were then plotted using the matplotlib\cite{hunter2007matplotlib} python library. The \figureref{fig:dataset} shows the result of applying t-SNE algorithm on the dataset for critical news.
+
+\begin{figure}[h]
+    \cfig{4}{data_visualization.png}{5}
+    \caption{Dataset visualization using t-SNE}
+    \label{fig:dataset}
+\end{figure}
+
+\section{Training and Validation}
+
+\section{Testing}

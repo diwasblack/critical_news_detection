@@ -1,27 +1,28 @@
 \chapter{Introduction}\label{introduction}
 
+% Motivation
 \section{Motivation}\label{intro:motivation}
 According to the authors of "What is fake news?"\cite{jasterfake}, 
 
 \enquote{Fake news is either false or misleading information that is propagated with either the intention to deceive or an utter disregard for the truth.}
 
-Based on a study of 2016, for 62 percent of US adults their source for news was social media platform such as Facebook\cite{gottfried2016news}. And it also has been shown that the most popular fake news stories
-were more shared on Facebook than the most popular mainstream news stories\cite{silverman2016analysis} and many people who saw fake news stories reported that they believed them\cite{silverman2016most}. Such widespread of fake 
-news can have severe impact on people and the society as a whole.  
+Based on a study of 2016, for 62 percent of US adults their source for news was social media platform such as Facebook\cite{gottfried2016news}. And it also has been shown that the most popular fake news stories were more shared on Facebook than the most popular mainstream news stories\cite{silverman2016analysis} and 75 percent of people who saw fake news stories reported that they believed them\cite{silverman2016most}. Such widespread of fake news can have severe impact on people and the society as a whole.\par
+During the United States presidential election of 2016, the most popular fake news stories were in favor of Donald Trump over Hillary Clinton\cite{silverman2016analysis}, combining the facts presented above, a number of commentators proposed that Donald Trump would not have been elected president were it not for the influence of fake news\cite{parkinson2016click}\cite{read2016donald}\cite{dewey2016facebook}.\par
+Social media platforms contain very large volume of data which might contain fake news as well so it is necessary to build a automated fake news detection system in order to reduce the negative effects it might cause.
 
-During the United States presidential election of 2016, the most popular fake news stories were in favor of Donald Trump over Hillary Clinton\cite{silverman2016analysis}, combining the facts presented above, a number of commentators proposed that Donald Trump would not have been elected president were it not for the influence of fake news\cite{parkinson2016click}\cite{read2016donald}\cite{dewey2016facebook}.
-
-Social media platforms contains very large volume of content which might contain fake news as well so it is necessary to detect a fake news beforehand in order to reduce the negative effects it might cause.
-
+% Research Problem
 \section{Research Problem} \label{intro:research}
-Automatic detection of fake news poses several problems; it might have been intentionally written to mislead readers, which make it nontrivial to detect simply based on content, exploiting auxiliary information such as knowledge base and user social engagements actually leads to another problem of verifying the quality of the data itself\cite{shu2017fake}.
+Automatic detection of fake news poses several problems; it might have been intentionally written to mislead readers, which make it nontrivial to detect simply based on content, exploiting auxiliary information such as knowledge base and user social engagements actually leads to another problem of verifying the quality of the data itself\cite{shu2017fake}. Furthermore, it is impractical for the reviewers to analyze every single article that flow through the social media and identify the fake news. A better compromise would be a semi-automated system where an algorithm would facilitate the reviewer to identify fake news.\par
+One key observation that can be fundamental in combating fake news is that we do not need to analyze every single article to detect whether it is fake news. An article might describe topics such as infotainment, personal news, health and beauty tips, etc which might not have severe impact even if there were fake. Such articles can be safely discarded from the verification step. In other words, there are somewhat important articles that needs to be verified and there are others which does not matter even if they are fake.\par
+A closely related concept is the dichotomy of news into hard and soft news. Various people have proposed different definition for hard and soft news\cite{reinemann2012hard}\cite{shoemaker2012news}. One definition of hard and soft news is \cite{reinemann2012hard},
 
-Due to the high velocity and veracity of the news found in the social media it would be better to build a semi-automated system\cite{wiegand2016veracity}.
+\enquote{Hard news is defined as reports about politics, public administration, the economy, science, technology and related topics. Soft news is defined as reports about celebrities, human interest, sport and other entertainment-centred stories.}
 
-Hard and soft news \cite{reinemann2012hard}
+The separation of news into hard and soft news is inflexible and is inadequate for the purpose of identifying important article from unimportant ones. So, a new label "critical" is introduced which is defined as, 
 
-\enquote{Hard news is defined as reports about politics, public administration, the economy, science, technology and
-related topics. Soft news is defined as reports about celebrities, human interest, sport and
-other entertainment-centred stories.}
+\enquote{A text is labeled as critical if it affects significant number of people, changes the routines of daily life, and needs verification on the information presented.}
 
-\section{Thesis Organization} \label{intro:organization}
+So, the goal is to construct a classifier that is able to separate a critical article from a non critical article.
+
+% Thesis Organization
+% \section{Thesis Organization} \label{intro:organization}
