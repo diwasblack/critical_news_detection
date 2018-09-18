@@ -2,7 +2,7 @@
 
 % Data Acquisition
 \section{Data Acquisition}
-Training a classifier such as a SVM requires gathering as much data as possible because the algorithm generalizes better when it has been trained on a sufficiently large dataset. As per the definition of critical news, there are certain characteristics that a text should have in order to be labeled as a critical news. Due to this reason, a dataset does not exists that fits the categorization of text into critical and non-critical news. This prompted the creation of a new dataset for critical and non critical news.\par
+As per the definition of critical news, there are certain characteristics that a text should have in order to be labeled as a critical news. Due to this reason, a dataset does not exists that fits the categorization of text into critical and non-critical news. This prompted the creation of a new dataset for critical and non critical news.\par
 The unlabelled dataset was obtained from the Tweets of the following Twitter users using the Twitter API\footnote{\url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html}} and python library python-oauth2\footnote{\url{https://github.com/joestump/python-oauth2}}.
 
 \begin{itemize}
@@ -21,11 +21,11 @@ meetings on how they are connecting local NYPD police officers with
 the community. https://t.co/D6K5DWxWWm https://t.co/NM0AWpPgja
 \end{verbatim}
 
-Each tweet was then manually labeled as either a critical news or non critical news and store in the database. The statistics of dataset is shown in \tableref{tbl:dataset_statistics}
+Each tweet was then manually labeled as either a critical news or non critical news and store in the database. The statistics of dataset is shown in \tableref{tbl:dataset_statistics} and a sample of data is shown in \tableref{tbl:dataset_sample}.
 
 \begin{table}
 \begin{center}
-\caption{Dataset statistics}
+\caption{Critical news dataset statistics}
 \label{tbl:dataset_statistics}
 \begin{tabular}{@{}lccc@{}}
 \toprule 
@@ -37,6 +37,32 @@ Each tweet was then manually labeled as either a critical news or non critical n
 \end{tabular}
 \end{center}
 \end{table}
+
+\begin{table}
+\begin{center}
+\caption{Sample of dataset}
+\label{tbl:dataset_sample}
+\begin{tabular}{p{12cm}p{2cm}}
+\toprule 
+\rule[-1pt]{0pt}{14pt}Text&Label\\
+\midrule 
+\rule[-1pt]{0pt}{14pt}Great news!! Missing 20-year-old Melissa Wilson has been located safe and well. Thank you for the shares!&Critical\\
+\hline
+\rule[-1pt]{0pt}{14pt}Detectives investigating the murder of Kwabena Nelson in Tottenham have made an arrest Haringey&Critical\\
+\hline
+\rule[-1pt]{0pt}{14pt}Police were appealing for help to find John Streek who was missing from Bromley. Mr Streek has been found safe and well. Many thanks for the retweets.&Critical\\
+\hline
+\rule[-1pt]{0pt}{14pt}Dedicated NYPD cops fighting crime, NeighborhoodPolicing, precision policing, and New Yorkers sharing the responsibility of public safety has made NYC the safest
+big city in America.&Non-Critical\\
+\hline
+\rule[-1pt]{0pt}{14pt}Father, husband, and @USMC veteran, Corporal Mujahid Ramzziddin of the Prince George County Police Department in Maryland gave his life defending a woman who was being attacked during a domestic violence incident. We will NeverForget his sacrifice. &Non-Critical\\
+\hline
+\rule[-1pt]{0pt}{14pt}Incredible life-saving medical measures and an amazing will to survive saved Chief Petty Officer Kenton Stacy after he sustained severe injuries from an IED while clearing a hospital in Raqqa, Syria.&Non-Critical\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
 
 % Text Processing
 \section{Text Processing}
@@ -72,24 +98,19 @@ The vectors thus obtained are then normalized using the $L^2$ norm.
     v_{norm} = \frac{v}{\lVert v \rVert}
 \end{equation}
 
-The scikit-learn\footnote{\url{http://scikit-learn.org/stable/index.html}} python library is used to obtain the TF-IDF values for the words.
+The scikit-learn\footnote{\url{http://scikit-learn.org/stable/index.html}} python library is used to obtain the TF-IDF values for the words. The IDF values for the terms are pre calculated using the entire corpus and the top 1000 terms with the highest IDF values are selected. These terms are then stored in the file system to be used later on to compute the TF-IDF feature vector.
 
 % Text Processing
 \section{Classification}
-\subsection{Support Vector Machine}
-Support Vector Machines non-linearly map the input vectors to a very high dimensional feature space and tries to construct a linear decision surface in the new feature space \cite{cortes1995support}. The SVM can use the kernel trick to change the structure of decision surface\cite{cortes1995support}. Some kernel that can be used with SVM are as follows,
+The classifier models were implemented with the help of scikit-learn python library. The models were used are as follows,
 
-Polynomial Kernel
-\begin{equation}
-    \label{eq:polynomial_kernel}
-    K(x, x^{'}) = {(x.x^{'} + 1)}^{d}
-\end{equation}
+\begin{itemize}
+    \item Regularized Logistic Regression
+    \item Support Vector Machine with RBF Kernel
+    \item Random Forest
+    \item Neural Network
+\end{itemize}
 
-RBF Kernel
-\begin{equation}
-    \label{eq:rbf_kernel}
-    K(x, x^{'}) = exp(- \frac{{\lVert x - x^{'} \rVert}^{2}}{2 \sigma^{2}})
-\end{equation}
-Where, $x$ and $x^{'}$ are the vector inputs, $d$ is the degree of the polynomial to use, and $\sigma$ is the smoothness parameter.
+% May need to explain the process of searching for hyperparamters
 
-For the purpose of classifying critical and non-critical news, implementation of SVM with RBF kernel found in scikit-learn library was used.
+At first, the dataset separated into training and test set by using a 80-20 split. The classifiers are trained on the training set using the 5 fold cross validation technique to select the best hyperparameters. The performance of the classifier is then evaluated on the test set.

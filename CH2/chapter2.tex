@@ -7,25 +7,96 @@ Lately, there has been a significant interest and development in word embeddings
 
 % Classfication
 \section{Classification}\label{classification}
-Text classification assigns documents to one or multiple categories by analyzing the content. If the label assignment is explicit it is known as hard assignment, whereas if probability values are assigned to labels it is known as soft assignment. Techniques such as Decision Trees, Rule Base Classifier, SVM\cite{cortes1995support}, Neural Networks, and Bayesian Classifiers can be used for text classification\cite{aggarwal2012survey}. It has been theoretically and empirically shown that the SVMs are very well suited for the text categorization problem\cite{joachims1998text}.
+Text classification assigns documents to one or multiple categories by analyzing the content. The label assignment could also be categorized as either hard assignment or soft assignment. The assignment is a hard assignment or hard classification if the a label is explicitly assigned to a document whereas the assignment is a soft one if probability value is assigned to each label. Several classification can be used to classify the text such as Rule Based Classifiers, Neural Networks, Logistic Regression, Random Forest, Decision Trees, K-Nearest Neighbor, SVM\cite{cortes1995support}, etc. However, it has been theoretically and empirically shown that SVMs are very well suited for the text categorization problem\cite{joachims1998text}.
+
+\subsection{Regularized Logistic Regression}
+
+\subsection{Support Vector Machine}
+Support Vector Machines non-linearly map the input vectors to a very high dimensional feature space and tries to construct a linear decision surface in the new feature space \cite{cortes1995support}. The SVM can use the kernel trick to change the structure of decision surface\cite{cortes1995support}. Some kernel that can be used with SVM are as follows,
+
+Polynomial Kernel
+\begin{equation}
+    \label{eq:polynomial_kernel}
+    K(x, x^{'}) = {(x.x^{'} + 1)}^{d}
+\end{equation}
+
+RBF Kernel
+\begin{equation}
+    \label{eq:rbf_kernel}
+    K(x, x^{'}) = exp(- \frac{{\lVert x - x^{'} \rVert}^{2}}{2 \sigma^{2}})
+\end{equation}
+Where, $x$ and $x^{'}$ are the vector inputs, $d$ is the degree of the polynomial to use, and $\sigma$ is the smoothness parameter.
+\subsection{Random Forest}
+\subsection{Neural Network}
 
 % Related Work
-\section{Related Work} \label{related_works}
-Although identifying fake news in itself is not a new problem, it is not easy to construct an automated algorithm that can do so\cite{shu2017fake}.
+\section{Related Works} \label{related_works}
+A fake news detection algorithm could use any combination of information such as news content, social content such as user's engagement, and dynamic information such as news propagation in order to perform the prediction \cite{shu2018fakenewsnet}. However, even with the availability of such multi-source information it is not easy to construct an automated algorithm for fake news detection\cite{shu2017fake}.
 
-For the BuzzFeedNews\footnote{\url{https://github.com/BuzzFeedNews/2016-10-facebook-fact-check}} dataset, a naive Bayes classifier was able to achieve an accuracy of 75 percent on the test set\cite{granik2017fake}. Which is an impressive performance given the simplicity of the model. 
+The BuzzFeedNews\footnote{\url{https://github.com/BuzzFeedNews/2016-10-facebook-fact-check}} is a labelled dataset containing information about Facebook posts which contains news article. The dataset consists of 2282 Facebook posts where each instance is labelled as "mostly true", "mostly false", "mixture of true and false", or "no factual content" based on the reviews by BuzzFeedNews employees.  After filtering out "mixture of true and false" and "no factual content" labelled posts and discarding articles without any text, a naive bayes classifier trained on the remaining 1771 news articles achieved a test accuracy of 74 percent \cite{granik2017fake}. It did so by predicting the conditional probability of a article being a fake news given the conditional probabilities of finding the words in a fake news. The conditional independence of words that the naive bayes classifier assumes is a strong premise which might not always hold for a given text.
 
-Training multiple classification models on the Signal Media dataset showed that the Stochastic Gradient Descent and SVM model outperformed models such as Naive Bayes, Bounded Decision Trees, Gradient Boosting, and Random Forests \cite{gilda2017evaluating} on a dataset.
+There has been attempt to solve the fake news classification problem on a reduced Signal Media news dataset\cite{corney2016million} using various standard supervised classification algorithms such as SVM, SGD, Random Forest, etc \cite{gilda2017evaluating}. The Signal Media dataset is an unlabelled collection of 1 million articles released to facilitate the research on news. In the experiment, the original dataset was processed to create a new dataset that labelled articles from verified reliable sources as truthful and articles from verified unreliable sources as fake. The processed dataset consisted of 11051 articles among which 3217 were labelled as fake. The result of training classifiers with TF-IDF bi-gram as feature set on the dataset is shown in \tableref{tbl:signal_media_performance}  \cite{gilda2017evaluating}. It was empirically shown that the SVM and SGD model outperformed other models for the fake news detection.
 
-The LIAR\footnote{\url{https://www.cs.ucsb.edu/~william/data/liar_dataset.zip}} is a large dataset that contains thousands of training, validation, and testing data for fake news detection. For such a dataset even complex models such as bi-directional long short term memory network and convolution neural network barely perform better than SVM and regularized logistic regression model\cite{wang2017liar}. However it was shown that adding meta-data information to the text significantly improved the performance of the models\cite{wang2017liar}.
+\begin{table}[h]
+\begin{center}
+\caption{Performance of models in Signal Media dataset with TF-IDF bi-gram feature}
+\label{tbl:signal_media_performance}
+\begin{tabular}{@{}lccc@{}}
+\toprule 
+\rule[-1pt]{0pt}{14pt}Model&Test Accuracy\\
+\midrule 
+\rule[-1pt]{0pt}{14pt}Naive Bayes&67.89\\
+\rule[-1pt]{0pt}{14pt}Bounded Decision Trees&66.1\\
+\rule[-1pt]{0pt}{14pt}Gradient Boosting&68.7\\
+\rule[-1pt]{0pt}{14pt}Random Forests&67.6\\
+\rule[-1pt]{0pt}{14pt}Stochastic Gradient Descent&77.2\\
+\rule[-1pt]{0pt}{14pt}Support Vector Machine&76.2\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
 
-The RST\cite{mann1988rhetorical} modeling is an useful method that describes a text in terms of the structure and relations that holds between the parts of the text. The RST model has been successfully used in combination with VSM model for text processing in the process of predicting the veracity of the text\cite{rubin2015towards}. The model thus created used a clustering algorithm for predictive analysis on the US National Public Radio's weekly radio show "Bluff the Listener" data to distinguish a truthful news from a deceptive one. It was able to achieve an accuracy of 56 percent on the test set which was not significantly better than the prediction done by a random chance algorithm\cite{rubin2015towards}.
+The LIAR\footnote{\url{https://www.cs.ucsb.edu/~william/data/liar_dataset.zip}} is a large dataset containing 12836 manually labeled short statements obtained from POLITIFACT.COM that has been used to research fake news detection \cite{wang2017liar}. The dataset contains six labels for truthfulness rating: "pants-fire", "false", "barely-true", "half-true", "mostly-true", and "true". The class distribution is mostly balanced except for 1050 "pants-fire" cases while for all other labels it ranges from 2063 to 2638. The test accuracy of various classifier models trained in the LIAR dataset is shown in \tableref{tbl:liar_performance} \cite{wang2017liar}. It was shown that adding meta-data information to the CNN model improved the test accuracy to 27.4 percent.
 
-The generally unsatisfactory performance of detecting fake news from content only has lead researchers to investigate the relation between users on social media and news. The results from the experiment suggest that there are users who are more likely to trust fake news than real news and the features of these users are different from those who are likely to trust real news\cite{shu2018understanding}.
+\begin{table}[h]
+\begin{center}
+\caption{Performance of models in LIAR dataset}
+\label{tbl:liar_performance}
+\begin{tabular}{@{}lccc@{}}
+\toprule 
+\rule[-1pt]{0pt}{14pt}Model&Test Accuracy\\
+\midrule 
+\rule[-1pt]{0pt}{14pt}Logistic Regression&24.7\\
+\rule[-1pt]{0pt}{14pt}SVM&25.5\\
+\rule[-1pt]{0pt}{14pt}Bidirectional LSTM&23.3\\
+\rule[-1pt]{0pt}{14pt}CNN&27.0\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
 
-Noting a relation between fake news and clickbait(content whose main purpose is to attract attention and encourage visitors to click on a link to a particular web page) articles, researchers have even proposed a clickbait detection system as a means of identifying fake news\cite{chen2015misleading}. It was suggested that a hybrid system capable of identifying both textual and non textual cue might yield a better classifier for clickbait detection\cite{chen2015misleading}.
 
-Some models were able to combine the news content information with dynamic information such as historical user responses to build a fake news detection model that was able to outperform other models that predicted fake news on the basis of news content only\cite{qian2018neural}.
+The generally unsatisfactory performance of detecting fake news from news content only has lead researchers to investigate the relation between users on social media and news \cite{shu2018understanding}. The results from the research suggest that there are users who are more likely to trust fake news than real news and the features of these users are different from those who are likely to trust real news.
 
-Several researchers have pointed out that the fake news detection system should be a semi automated system designed to augment the human judgement \cite{conroy2015automatic}
-\cite{chen2015news}.
+The TCNN-URG model successfully combines the news content information with dynamic information (historical responses by the user) to build a fake news detection system \cite{qian2018neural}. In order to contrast the model with previous techniques the models were trained on the Weibo dataset\cite{ma2016detecting} which consisted of 2313 rumors and 2351 non rumor labelled data obtained using the API of Sina Weibo. The performance achieved by the models is shown in \tableref{tbl:weibo_performance} \cite{qian2018neural}.
+
+\begin{table}[h]
+\begin{center}
+\caption{Performance of models in Weibo dataset}
+\label{tbl:weibo_performance}
+\begin{tabular}{@{}lccc@{}}
+\toprule 
+\rule[-1pt]{0pt}{14pt}Model&Test Accuracy\\
+\midrule 
+\rule[-1pt]{0pt}{14pt}SVM with LIWC&66.06\\
+\rule[-1pt]{0pt}{14pt}SVM with POS-gram&74.77\\
+\rule[-1pt]{0pt}{14pt}SVM with 1-gram&84.76\\
+\rule[-1pt]{0pt}{14pt}CNN&86.23\\
+\rule[-1pt]{0pt}{14pt}TCNN&88.08\\
+\rule[-1pt]{0pt}{14pt}TCNN-URG&89.84\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+It has been found that the news with clickbait headlines often have content which are misleading and unverified \cite{silverman2015lies}. And, citing the fact that news with clickbait headlines have been the major factor responsible for spread of fake news \cite{silverman2015lies} some researchers have even proposed a clickbait detection system as a means of identifying fake news\cite{chen2015misleading}. 

@@ -9,6 +9,39 @@ In order to gain insight into the dataset it is better to first visualize the da
     \label{fig:dataset}
 \end{figure}
 
-\section{Training and Validation}
+\section{Performance}
+The performance of the classifiers on the test set is shown in \tableref{tbl:critical_news_performance}. The average performance of models is shown in \tableref{tbl:average_performance}.
 
-\section{Testing}
+\begin{table}[h]
+\begin{center}
+\caption{Performance of classifiers on critical news dataset}
+\label{tbl:critical_news_performance}
+\begin{tabular}{@{}lcccc@{}}
+\toprule 
+Model&Accuracy&Precison&Recall&Fscore\\
+\midrule 
+\multirow{5}{*}{Regularized Logistic Regression}&92.30&91.11&90.56&90.83\\&93.93&90.62&92.38&91.46\\&92.07&89.84&89.84&89.84\\&93.70&92.45&91.23&91.82\\&92.07&92.10&88.94&90.31\\
+\hline
+\multirow{5}{*}{SVM}&94.06&93.94&91.24&92.48\\&93.93&92.53&92.92&92.72\\&93.24&92.50&91.09&91.75\\&93.24&91.93&91.73&91.83\\&92.77&91.44&90.34&90.86\\
+\hline
+\multirow{5}{*}{Random Forests}&90.90&90.54&87.75&88.96\\&89.97&88.56&86.87&87.65\\&94.63&92.42&93.23&92.81\\&91.84&89.94&90.81&90.36\\&92.77&90.34&91.44&90.86\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}[h]
+\begin{center}
+\caption{Average performance of classifiers on critical news dataset}
+\label{tbl:average_performance}
+\begin{tabular}{@{}lcccc@{}}
+\toprule 
+Model&Accuracy&Precison&Recall&Fscore\\
+\midrule 
+Regularized Logistic Regression&92.81&91.224&90.02&90.852\\
+SVM&93.448&92.468&91.464&91.128\\
+Random Forests&92.022&90.36&90.02&90.128\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
