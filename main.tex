@@ -67,6 +67,7 @@
 \usepackage{float}
 \usepackage{placeins}
 \usepackage{csquotes}
+\usepackage{longtable}
 
 %\usepackage{url} % hyperref works too
 %\urlstyle{same}  % (sf also works, for something more subtle than tt)
@@ -234,17 +235,20 @@
 %   appendices environment, which tells LaTeX to give them letters
 %   instead of numbers.
 
-%\begin{appendices}
-%\appendix
+\begin{appendices}
+\appendix
 %
 %%   Include my appendices
-%%\include{./CH7/appendix1name}
+
+\include{./CH6/chapter6}
+
 %%\include{./CH8/appendix2name}
 %%\include{./CH9/appendix3name}
 %
 %%   Here comes the stuff after the main content
 %%   turn off appendix environment/package first:
-%\end{appendices}
+\end{appendices}
+
 \backmatter
 
 %   Include my bibliography

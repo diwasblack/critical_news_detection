@@ -1,15 +1,210 @@
 \chapter{Background} \label{background}
+The goal of text classification is to automatically assign a document to one or more pre-defined class using the information available from the content and the meta-data of the document.
 
-% Text Representation
-\section{Text Representation}\label{feature}
-The first step in analyzing text is to convert it into representations that can be used with analysis algorithms. The Vector Space Model or Bag-of-words model represents the text as a collection of words without regards to the sequence in which they occur. Usually, the number of features that is obtained from the VSM representation is generally high as the number of unique words is generally high. So, feature extraction algorithms such as Information Gain, Gini Index, Chi square statistics, Latent Semantic Indexing, Supervised Clustering, Linear Discriminant Analysis, and Linearized Singular Value Decomposition can be used for selecting the relevant features \cite{aggarwal2012survey}. \par
+The process of constructing a text classifier begins with constructing a system that can convert the stream of characters to a representation that is suitable with classification algorithms. A popular way of representing text is to convert it into vectors that somehow capture the essence of the document. 
+
+The vectors can then be used to construct predictive models that can assign class labels to the documents. The complexity of the predictive models could range from simple hand-crafted rule based classifier to supervised learning models. Furthermore, the label assignment itself could also be categorized as either hard assignment or soft assignment. The assignment is a hard assignment or hard classification if the a label is explicitly assigned to a document whereas the assignment is a soft one if probability value is assigned to each label.
+
+\section{Text Processing}
+\subsection{Tokenization}
+Tokenization is the first step in processing a text which converts the text into a sequence of words. \tableref{tbl:tokenization_example} shows an example of tokenization for a given text.
+
+\begin{table}[h]
+\begin{center}
+\caption{Example of tokenization}
+\label{tbl:tokenization_example}
+\begin{tabular}{p{6cm}p{6cm}}
+\toprule 
+Text&Tokens\\
+\midrule 
+"The quick brown fox jumps over the lazy dog."&["The", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"]\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{Stop word filtering}
+There are several words such as "a", "the", "you" etc which are very common across every English text. Since such words are very common across every text they are poor discriminator for the task of classifying the text. So, a popular practice is filter out these words from further processing. These words that are filtered out from the feature set are known as stop words. It has been empirically shown that filtering the stop words improves the performance on most text classification task \cite{silva2003importance}.
+
+\subsection{Stemming}
+Stemming is the process of reducing the inflected words to their stem or root. For example, the word "happiness" can be reduced to it's stem "happy", the word "loved" can also be reduced to it's stem "love". By reducing the words to their stem, not only does the number of feature decrease the feature set itself improves as the inflected words of a same stem will be considered as a single feature instead of multiple features. 
+
+\subsection{Vector Space Model}
+The Vector Space Model or Bag-of-words model represents the text as a collection of words without regards to the sequence in which they occur. Usually, the number of features that is obtained from the VSM representation is generally high as the number of unique words is generally high. So, feature extraction algorithms such as Information Gain, Gini Index, Latent Semantic Indexing, Linearized Singular Value Decomposition, etc can be used for selecting the relevant features \cite{aggarwal2012survey}.
+
+\subsection{n-gram models}
+The n-gram model of text is a probabilistic model that represents a text as a continuous sequence of $n$ words. The Vector Space Model can be considered a special case of n-gram model where $n=1$. \tableref{tbl:ngram_representation} shows some of the ngram representation of the text "The quick brown fox jumps."
+
+\begin{table}[h]
+\begin{center}
+\caption{Example ngram representation}
+\label{tbl:ngram_representation}
+\begin{tabular}{p{3cm}p{8cm}}
+\toprule 
+Model&Representation\\
+\midrule 
+Unigram($n=1$)&"The", "quick", "brown", "fox", "jumps" \\
+Bigram($n=2$)&"The quick", "quick brown", "brown fox", "fox jumps" \\
+Trigram($n=3$)& "The quick brown", "quick brown fox", "brown fox jumps" \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{TF-IDF}
+TF-IDF\cite{sparck1972statistical} is rather simpler feature weighing scheme that assigns weight to the term as per the occurrence in the text and it's importance in the corpus. TF-IDF for a term $t$ in a document $d$ is calculated as a product of two terms; Term Frequency and Inverse Document Frequency. 
+\begin{equation}
+    tfidf(t, d) = tf(t, d) * idf(t)
+\end{equation}
+
+The TF for a term in a document is the count of the term in the document and IDF for a term is calculated as follows,
+\begin{equation}
+    idf(t) = \log{\frac{N}{1 + df(t)}}
+\end{equation}
+
+Where, $N$ is the number of total numer of documents and $df(t)$ is the number of documents that contains the term $t$.
+
+\subsection{Word Embeddings}
 Lately, there has been a significant interest and development in word embeddings\cite{mikolov2013distributed}\cite{pennington2014glove}\cite{bojanowski2017enriching}. In word embeddings, each word is represented by a vector in such a way that similar words will have similar vectors\cite{goldberg2014word2vec}. The word vectors are then combined to create a vector representation of the text. This will force two text that are similar in content but different in words to have similar vector representation.
+
+% Related Work
+\section{Related Work on Classifying News} \label{related_works}
+Due to the way the critical news is defined, there is not much research work that could be directly compared to the critical news detection. The closest classification that could be compared is the dichotomy of hard/soft news. But, the hard/soft classification of news are mostly confined to the journalism and implementation of such classifiers are rarely found. The majority of research instead focus on a much broader problem of topic classification \cite{wang2012baselines, lee2011twitter, joachims1998text, nigam2000text}.
+
+The topic classification algorithm could be used for hard/soft news classification by using the labelling technique shown in \tableref{tbl:topics_to_hard_soft}. However, the accuracy of such method for hard/soft news classification remains unknown for now.
+
+\begin{table}[h]
+\begin{center}
+\caption{Conversion of topic labels to hard/soft news labels}
+\label{tbl:topics_to_hard_soft}
+\begin{tabular}{lr}
+\toprule 
+Topics&Label \\
+\midrule 
+politics, public administration, science, technology, etc & Hard\\
+celebrities, human interest, sport, entertainment, etc & Soft\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+Lately, fake news detection problem have received a lot of interest from the researchers. It has been shown that the fake news detection algorithms could use any combination of information such as news content, social content (e.g. user's engagement), and dynamic information (e.g. news propagation) in order to perform the prediction \cite{shu2018fakenewsnet}. However, even with the availability of such information it is not easy to construct an automated algorithm for fake news detection\cite{shu2017fake}.
+
+One of the simplest model that was successfully implemented for fake news detection is the naive bayes classifier \cite{granik2017fake}. The research uses a modified BuzzFeedNews\footnote{\url{https://github.com/BuzzFeedNews/2016-10-facebook-fact-check}} dataset for training and testing the classifier. The BuzzFeedNews is a manually labelled dataset containing Facebook posts of news article. Each item in the BuzzFeedNews dataset is assigned a label based the truthfulness rating of the news content. \tableref{tbl:buzzfeed_dataset} shows the distribution of class labels in the BuzzFeedNews dataset. In the research, a new dataset containing 1771 news articles was created by discarding articles which are labelled as "mixture of true and false" or "no factual content" along with articles without any text in them. The naive bayes classifier was able to achieve a test accuracy of 74 percent which is an impressive result given the simplicity of the model.
+
+\begin{table}[h]
+\begin{center}
+\caption{Statistics about BuzzFeed dataset}
+\label{tbl:buzzfeed_dataset}
+\begin{tabular}{lr}
+\toprule 
+Label&Number of samples \\
+\midrule 
+mostly false&104 \\
+mixture of true and false&245 \\
+mostly true&1669 \\
+no factual content&264 \\
+\midrule
+&2282 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+The research by Gilda, 2017 provides the most exhaustive performance comparison of various standard classification algorithm for the fake news detection problem \cite{gilda2017evaluating}. The research contrasts the performance of classification algorithms(SVM, SGD, Random Forest, Bounded Decison Trees, and Gradient Boosting) by training them a reduced Signal Media news dataset\cite{corney2016million}. The Signal Media dataset is an unlabelled collection of 1 million articles released to facilitate the research on news. In the experiment, the original dataset was processed to create a new dataset that labelled articles from verified reliable sources as truthful and articles from verified unreliable sources as fake. The distribution of the dataset that was obtained is shown in \tableref{tbl:reduced_signal_media_dataset}. And, \tableref{tbl:signal_media_performance} shows the result of training standard classifiers on the dataset by using TF-IDF with bi-gram terms as feature set \cite{gilda2017evaluating}. It empirically shows that most of the standard classifiers work reasonably well for fake news detection in the dataset. 
+
+\begin{table}[h]
+\begin{center}
+\caption{Reduced Signal Media dataset for Fake News Detection}
+\label{tbl:reduced_signal_media_dataset}
+\begin{tabular}{lr}
+\toprule 
+Label&Number of samples \\
+\midrule 
+fake&3217 \\
+truthful&7834 \\
+\midrule
+&11051 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}[h]
+\begin{center}
+\caption{Performance of models in reduced Signal Media dataset}
+\label{tbl:signal_media_performance}
+\begin{tabular}{lr}
+\toprule 
+Model&Test Accuracy\\
+\midrule 
+Naive Bayes&67.89\\
+Bounded Decision Trees&66.1\\
+Gradient Boosting&68.7\\
+Random Forests&67.6\\
+Stochastic Gradient Descent&77.2\\
+Support Vector Machine&76.2\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+However, for the LIAR\footnote{\url{https://www.cs.ucsb.edu/~william/data/liar_dataset.zip}} dataset the performance of the standard classifiers are a bit underwhelming as shown by \tableref{tbl:liar_performance} \cite{wang2017liar}. This might be because of the fact that document in the LIAR dataset are short statements instead of lengthy news articles.
+The LIAR dataset is collection of human labeled short statements constructed using the POLITIFACT\footnote{\url{https://www.politifact.com/}} API.  The dataset consists of six labels for truthfulness rating: "pants-fire", "false", "barely-true", "half-true", "mostly-true", and "true" with mostly balanced class except for 1050 "pants-fire" cases while for all other labels it ranges from 2063 to 2638. 
+
+\begin{table}[h]
+\begin{center}
+\caption{Performance of models in LIAR dataset}
+\label{tbl:liar_performance}
+\begin{tabular}{@{}lccc@{}}
+\toprule 
+Model&Test Accuracy\\
+\midrule 
+Logistic Regression&24.7\\
+SVM&25.5\\
+Bidirectional LSTM&23.3\\
+CNN&27.0\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+The generally unsatisfactory performance of detecting fake news from news content only has lead researchers to investigate the relation between users on social media and news \cite{shu2018understanding}. The research suggested that the features of users who were more likely to trust fake news than real news were different from users who are more likely to trust real news. The TCNN-URG model for fake news detection by Qian et. al., 2018 was able to use this information to its advantage. The model combined the information from news content with dynamic information(historical responses by the user) of the articles perform the prediction. In order to contrast the model with standard techniques the models were trained on the Weibo dataset\cite{ma2016detecting} which consisted of 2313 rumors and 2351 non rumor articles obtained using the API of Sina Weibo. The performance achieved by the models is shown in \tableref{tbl:weibo_performance} \cite{qian2018neural}.
+
+\begin{table}[h]
+\begin{center}
+\caption{Performance of models in Weibo dataset}
+\label{tbl:weibo_performance}
+\begin{tabular}{@{}lccc@{}}
+\toprule 
+\rule[-1pt]{0pt}{14pt}Model&Test Accuracy\\
+\midrule 
+SVM with LIWC&66.06\\
+SVM with POS-gram&74.77\\
+SVM with 1-gram&84.76\\
+CNN&86.23\\
+TCNN&88.08\\
+TCNN-URG&89.84\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+One study that tries to tackle the fake news detection from entirely different perspective is the research by Chen et. al, 2015.  The research start with the fact that news with clickbait headlines often had content which were misleading and unverified \cite{silverman2016analysis}. Using that premise with the fact that news with clickbait headlines had been the major factor responsible for spread of fake news \cite{silverman2015lies}, the research propose a clickbait article detection system as a means of identifying the fake news \cite{chen2015misleading}.
 
 % Classfication
 \section{Classification}\label{classification}
-Text classification assigns documents to one or multiple categories by analyzing the content. The label assignment could also be categorized as either hard assignment or soft assignment. The assignment is a hard assignment or hard classification if the a label is explicitly assigned to a document whereas the assignment is a soft one if probability value is assigned to each label. Several classification can be used to classify the text such as Rule Based Classifiers, Neural Networks, Logistic Regression, Random Forest, Decision Trees, K-Nearest Neighbor, SVM\cite{cortes1995support}, etc. However, it has been theoretically and empirically shown that SVMs are very well suited for the text categorization problem\cite{joachims1998text}.
+Several classification can be used to classify the text such as Rule Based Classifiers, Neural Networks, Logistic Regression, Random Forest, Decision Trees, K-Nearest Neighbor, SVM\cite{cortes1995support}, etc. However, it has been theoretically and empirically shown that SVMs are very well suited for the text categorization problem\cite{joachims1998text}.
 
-\subsection{Regularized Logistic Regression}
+\subsection{Logistic Regression}
+A logistic regression is a binary classification algorithm that tries to construct a decision boundary as one given in \eqref{eq:regularized_logistic_regression} by minimizing a regularized cost for misclassification using a SGD algorithm.
+
+\begin{equation}
+    \label{eq:regularized_logistic_regression}
+    h_{\theta}(x) = \frac{1}{1 + {e}^{-{\theta}^{t}. x}}
+\end{equation}
+
+where $x$ is the input vector and $\theta$ is the vector containing the parameters of the decision boundary.
 
 \subsection{Support Vector Machine}
 Support Vector Machines non-linearly map the input vectors to a very high dimensional feature space and tries to construct a linear decision surface in the new feature space \cite{cortes1995support}. The SVM can use the kernel trick to change the structure of decision surface\cite{cortes1995support}. Some kernel that can be used with SVM are as follows,
@@ -26,77 +221,9 @@ RBF Kernel
     K(x, x^{'}) = exp(- \frac{{\lVert x - x^{'} \rVert}^{2}}{2 \sigma^{2}})
 \end{equation}
 Where, $x$ and $x^{'}$ are the vector inputs, $d$ is the degree of the polynomial to use, and $\sigma$ is the smoothness parameter.
-\subsection{Random Forest}
+
+\subsection{Random Forests}
+The random forests\cite{breiman2001random} is an ensemble method for decision trees\cite{quinlan1986induction} which can be used for both classification and regression analysis.  The algorithm performs the prediction task by combining the output from independent tree predictors constructed during the training phase \cite{breiman2001random}. 
+
 \subsection{Neural Network}
-
-% Related Work
-\section{Related Works} \label{related_works}
-A fake news detection algorithm could use any combination of information such as news content, social content such as user's engagement, and dynamic information such as news propagation in order to perform the prediction \cite{shu2018fakenewsnet}. However, even with the availability of such multi-source information it is not easy to construct an automated algorithm for fake news detection\cite{shu2017fake}.
-
-The BuzzFeedNews\footnote{\url{https://github.com/BuzzFeedNews/2016-10-facebook-fact-check}} is a labelled dataset containing information about Facebook posts which contains news article. The dataset consists of 2282 Facebook posts where each instance is labelled as "mostly true", "mostly false", "mixture of true and false", or "no factual content" based on the reviews by BuzzFeedNews employees.  After filtering out "mixture of true and false" and "no factual content" labelled posts and discarding articles without any text, a naive bayes classifier trained on the remaining 1771 news articles achieved a test accuracy of 74 percent \cite{granik2017fake}. It did so by predicting the conditional probability of a article being a fake news given the conditional probabilities of finding the words in a fake news. The conditional independence of words that the naive bayes classifier assumes is a strong premise which might not always hold for a given text.
-
-There has been attempt to solve the fake news classification problem on a reduced Signal Media news dataset\cite{corney2016million} using various standard supervised classification algorithms such as SVM, SGD, Random Forest, etc \cite{gilda2017evaluating}. The Signal Media dataset is an unlabelled collection of 1 million articles released to facilitate the research on news. In the experiment, the original dataset was processed to create a new dataset that labelled articles from verified reliable sources as truthful and articles from verified unreliable sources as fake. The processed dataset consisted of 11051 articles among which 3217 were labelled as fake. The result of training classifiers with TF-IDF bi-gram as feature set on the dataset is shown in \tableref{tbl:signal_media_performance}  \cite{gilda2017evaluating}. It was empirically shown that the SVM and SGD model outperformed other models for the fake news detection.
-
-\begin{table}[h]
-\begin{center}
-\caption{Performance of models in Signal Media dataset with TF-IDF bi-gram feature}
-\label{tbl:signal_media_performance}
-\begin{tabular}{@{}lccc@{}}
-\toprule 
-\rule[-1pt]{0pt}{14pt}Model&Test Accuracy\\
-\midrule 
-\rule[-1pt]{0pt}{14pt}Naive Bayes&67.89\\
-\rule[-1pt]{0pt}{14pt}Bounded Decision Trees&66.1\\
-\rule[-1pt]{0pt}{14pt}Gradient Boosting&68.7\\
-\rule[-1pt]{0pt}{14pt}Random Forests&67.6\\
-\rule[-1pt]{0pt}{14pt}Stochastic Gradient Descent&77.2\\
-\rule[-1pt]{0pt}{14pt}Support Vector Machine&76.2\\
-\bottomrule
-\end{tabular}
-\end{center}
-\end{table}
-
-The LIAR\footnote{\url{https://www.cs.ucsb.edu/~william/data/liar_dataset.zip}} is a large dataset containing 12836 manually labeled short statements obtained from POLITIFACT.COM that has been used to research fake news detection \cite{wang2017liar}. The dataset contains six labels for truthfulness rating: "pants-fire", "false", "barely-true", "half-true", "mostly-true", and "true". The class distribution is mostly balanced except for 1050 "pants-fire" cases while for all other labels it ranges from 2063 to 2638. The test accuracy of various classifier models trained in the LIAR dataset is shown in \tableref{tbl:liar_performance} \cite{wang2017liar}. It was shown that adding meta-data information to the CNN model improved the test accuracy to 27.4 percent.
-
-\begin{table}[h]
-\begin{center}
-\caption{Performance of models in LIAR dataset}
-\label{tbl:liar_performance}
-\begin{tabular}{@{}lccc@{}}
-\toprule 
-\rule[-1pt]{0pt}{14pt}Model&Test Accuracy\\
-\midrule 
-\rule[-1pt]{0pt}{14pt}Logistic Regression&24.7\\
-\rule[-1pt]{0pt}{14pt}SVM&25.5\\
-\rule[-1pt]{0pt}{14pt}Bidirectional LSTM&23.3\\
-\rule[-1pt]{0pt}{14pt}CNN&27.0\\
-\bottomrule
-\end{tabular}
-\end{center}
-\end{table}
-
-
-The generally unsatisfactory performance of detecting fake news from news content only has lead researchers to investigate the relation between users on social media and news \cite{shu2018understanding}. The results from the research suggest that there are users who are more likely to trust fake news than real news and the features of these users are different from those who are likely to trust real news.
-
-The TCNN-URG model successfully combines the news content information with dynamic information (historical responses by the user) to build a fake news detection system \cite{qian2018neural}. In order to contrast the model with previous techniques the models were trained on the Weibo dataset\cite{ma2016detecting} which consisted of 2313 rumors and 2351 non rumor labelled data obtained using the API of Sina Weibo. The performance achieved by the models is shown in \tableref{tbl:weibo_performance} \cite{qian2018neural}.
-
-\begin{table}[h]
-\begin{center}
-\caption{Performance of models in Weibo dataset}
-\label{tbl:weibo_performance}
-\begin{tabular}{@{}lccc@{}}
-\toprule 
-\rule[-1pt]{0pt}{14pt}Model&Test Accuracy\\
-\midrule 
-\rule[-1pt]{0pt}{14pt}SVM with LIWC&66.06\\
-\rule[-1pt]{0pt}{14pt}SVM with POS-gram&74.77\\
-\rule[-1pt]{0pt}{14pt}SVM with 1-gram&84.76\\
-\rule[-1pt]{0pt}{14pt}CNN&86.23\\
-\rule[-1pt]{0pt}{14pt}TCNN&88.08\\
-\rule[-1pt]{0pt}{14pt}TCNN-URG&89.84\\
-\bottomrule
-\end{tabular}
-\end{center}
-\end{table}
-
-It has been found that the news with clickbait headlines often have content which are misleading and unverified \cite{silverman2015lies}. And, citing the fact that news with clickbait headlines have been the major factor responsible for spread of fake news \cite{silverman2015lies} some researchers have even proposed a clickbait detection system as a means of identifying fake news\cite{chen2015misleading}. 
+Neural networks are a networked learning model capable of performing both classification and regression tasks. The model hierarchically constructs a deeper representation of the given input and tries to perform the prediction task on the representation constructed. 

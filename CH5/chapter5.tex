@@ -1,7 +1,17 @@
 \chapter{Conclusion}\label{conclusion}
+The key idea that this thesis explores is that for fake news detection there are news on topics such as entertainment, personal news, health tips, infotainment, etc which might not have severe impact even if they were fake. So, it is not necessary to verify the truthfulness of these kind of news. 
+
+In order to formalize the problem better, a new term "critical news" was introduced which is defined as,
+
+\enquote{A text is labeled as critical if it affects significant number of people, changes the routines of daily life, and needs verification on the information presented.}
+
+Using the definition of critical news, a new dataset containing 1548 critical news articles and 595 non-critical news articles was prepared. The TF-IDF algorithm with unigram terms was used to extract a 1000 dimension vector for each document. Then the performance of multiple classifiers; Regularized Logistic Regression, Random Forests, Support Vector Machine, and Neural Network was evaluated on the critical news detection task.
+
+It was observed that the classifiers performed reasonably well on the critical news detection task. The models on average were able to achieve a test accuracy greater than 90 percent with the Neural Network model achieving the high test accuracy of 93.654 percent. Which shows that it is possible build an automated classifier for critical news detection task.
+
+Thus, this thesis provides yet another tool that can aid in the detection of fake news. It can be used either as a standalone tool with human reviewer to detect a fake news or it could be used with another automated fake news classifier to filter critical news that should be verified for it's truthfulness.
 
 \section{Future Works}
-It has been empirically shown that most of the existing NLP system can be improved by using word embedding as extra word feature\cite{turian2010word}. However the extend of improvement that word embedding models could bring about for critical news detection remains to be   seen.\par
-Another possibility that could be explored for improving the performance is using sequence analysis algorithms such as HMM\cite{baum1966statistical}, or Recurrent Neural Networks such as LSTM\cite{hochreiter1997long} and GRU\cite{cho2014learning} for class prediction. These algorithms could also be used along with the word embedding models.  
+It has been empirically shown that most of the existing NLP system can be improved by using word embedding as extra word feature\cite{turian2010word}. However the extend of improvement that word embedding models could bring about for critical news detection remains to be seen.
 
-% TF-IDF with n-grams
+Another possibility that could be explored for improving the performance is using sequence analysis algorithms such as HMM\cite{baum1966statistical}, or Recurrent Neural Networks such as LSTM\cite{hochreiter1997long} and GRU\cite{cho2014learning} for class prediction.

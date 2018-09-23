@@ -1,7 +1,7 @@
 \chapter{Experiments and Results} \label{result}
 
 \section{Dataset}
-In order to gain insight into the dataset it is better to first visualize the data. Visualizing high dimensional data requires reducing the dimensions to either 2 or 3. The t-SNE\cite{maaten2008visualizing} is an excellent algorithm which is well suited for such task. The algorithm takes the vectors obtained from the text processing step and produces a 2D vector for each document. The reduced vectors were then plotted using the matplotlib\cite{hunter2007matplotlib} python library. The \figureref{fig:dataset} shows the result of applying t-SNE algorithm on the dataset for critical news.
+In order to gain insight into the dataset it is better to first visualize the data. Visualizing high dimensional data requires reducing the dimensions to either 2 or 3. The t-SNE\cite{maaten2008visualizing} is an excellent algorithm which is well suited for such task. The algorithm takes the vectors obtained from the text processing step and produces a 2D vector for each document. The reduced vectors were then plotted using the matplotlib\cite{hunter2007matplotlib} python library. 
 
 \begin{figure}[h]
     \cfig{4}{data_visualization.png}{5}
@@ -9,38 +9,95 @@ In order to gain insight into the dataset it is better to first visualize the da
     \label{fig:dataset}
 \end{figure}
 
-\section{Performance}
-The performance of the classifiers on the test set is shown in \tableref{tbl:critical_news_performance}. The average performance of models is shown in \tableref{tbl:average_performance}.
+The \figureref{fig:dataset} shows the result of applying t-SNE algorithm on the dataset for critical news. It shows that on average, the feature vectors of critical news are different from the feature vectors of non-critical news which is an excellent outcome. However, the dataset does not have a large margin of separation between the classes and it does look a little bit noisy. The presence of noise and the thin margin of separation could lead to classification errors.
 
-\begin{table}[h]
+\section{Classification Performance}
+The performance of each classifier for five separate runs is shown in \tableref{tbl:critical_news_performance} and the \tableref{tbl:average_performance} shows the average of these runs. It is clear from the tables that on average, the classification models achieve a reasonably high performance which is comparable to one another. It also shows that the average performance of Neural Network model is slightly better than other models.
+
+\tableref{tbl:sample_predictions} shows a sample of prediction done by the best performing model.
+
+\begin{table}
 \begin{center}
 \caption{Performance of classifiers on critical news dataset}
 \label{tbl:critical_news_performance}
-\begin{tabular}{@{}lcccc@{}}
+\begin{tabular}{@{}lccccr@{}}
 \toprule 
-Model&Accuracy&Precison&Recall&Fscore\\
+Model&Iteration&Accuracy&Precison&Recall&Fscore\\
 \midrule 
-\multirow{5}{*}{Regularized Logistic Regression}&92.30&91.11&90.56&90.83\\&93.93&90.62&92.38&91.46\\&92.07&89.84&89.84&89.84\\&93.70&92.45&91.23&91.82\\&92.07&92.10&88.94&90.31\\
+\multirow{5}{*}{Regularized Logistic Regression}
+&1&92.30&91.11&90.56&90.83\\
+&2&\textbf{93.93}&90.62&92.38&91.46\\
+&3&92.07&89.84&89.84&89.84\\
+&4&93.70&92.45&91.23&\textbf{91.82}\\
+&5&92.07&92.10&88.94&90.31\\
 \hline
-\multirow{5}{*}{SVM}&94.06&93.94&91.24&92.48\\&93.93&92.53&92.92&92.72\\&93.24&92.50&91.09&91.75\\&93.24&91.93&91.73&91.83\\&92.77&91.44&90.34&90.86\\
+\multirow{5}{*}{Random Forests}
+&1&90.90&90.54&87.75&88.96\\
+&2&89.97&88.56&86.87&87.65\\
+&3&\textbf{94.63}&92.42&93.23&\textbf{92.81}\\
+&4&91.84&89.94&90.81&90.36\\
+&5&92.77&90.34&91.44&90.86\\
 \hline
-\multirow{5}{*}{Random Forests}&90.90&90.54&87.75&88.96\\&89.97&88.56&86.87&87.65\\&94.63&92.42&93.23&92.81\\&91.84&89.94&90.81&90.36\\&92.77&90.34&91.44&90.86\\
+\multirow{5}{*}{SVM}
+&1&\textbf{94.06}&93.94&91.24&92.48\\
+&2&93.93&92.53&92.92&\textbf{92.72}\\
+&3&93.24&92.50&91.09&91.75\\
+&4&93.24&91.93&91.73&91.83\\
+&5&92.77&91.44&90.34&90.86\\
+\hline
+\multirow{5}{*}{Neural Network}
+&1&94.40&92.21&92.75&92.48\\
+&2&\textbf{94.63}&93.74&92.52&\textbf{93.11}\\
+&3&92.54&90.03&90.03&90.03\\
+&4&93.93&91.69&91.69&91.69\\
+&5&92.07&90.06&90.06&90.06\\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
 
-\begin{table}[h]
+\begin{table}
 \begin{center}
 \caption{Average performance of classifiers on critical news dataset}
 \label{tbl:average_performance}
-\begin{tabular}{@{}lcccc@{}}
+\begin{tabular}{@{}lccccc@{}}
 \toprule 
 Model&Accuracy&Precison&Recall&Fscore\\
 \midrule 
 Regularized Logistic Regression&92.81&91.224&90.02&90.852\\
-SVM&93.448&92.468&91.464&91.128\\
 Random Forests&92.022&90.36&90.02&90.128\\
+SVM&93.448&92.468&91.464&91.128\\
+Neural Network&\textbf{93.654}&91.602&91.685&\textbf{91.43}\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}
+\begin{center}
+\caption{Sample predictions}
+\label{tbl:sample_predictions}
+\begin{tabular}{p{10cm}p{2cm}p{2cm}}
+\toprule 
+Text&Label&Predicted\\
+\midrule 
+Detectives are investigating following a robbery outside a licensed premises in St Albans overnight.More &Critical&Critical\\
+\hline
+Homicide Squad detectives have charged a man following an alleged fatal stabbing at Ultima.&Critical&Critical\\
+\hline
+RT MPSHammFul: FH schools officers carried out a weapons sweep in Little Wormwood Scrubs glad to say nothing found StopKnifeCrime OpSce&Critical&Non-critical\\
+\hline
+We were dealing with a suspicious vehicle in Hyde Park Corner from 2100hrs. A controlled explosion was carried out at around 2140hrs and the incident was stood down - road closures now lifted. Thanks to the public for cooperation.&Critical&Non-Critical\\
+\hline
+Onthisday we remember PC Stephen Tibble QPM, who was fatally shot whilst off duty after trying to arrest an armed suspect being pursued by police in 1975. He was posthumously awarded the Queen’s Medal for Gallantry&Non-Critical&Critical\\
+\hline
+Three beachgoers had a lucky escape after two patrolling policemen rescued them from the surf near Lorne on Friday&Non-Critical&Critical\\
+\hline
+There's two weeks left to vote in the Met Excellence Awards. MPSTootingTnC are nominated for Safer Neighbourhoods Team of the Year for their diligent work tackling an increasing drug anti-social behaviour issue in the area. Learn more; cast your vote&Non-Critical&Non-Critical\\
+\hline
+It was over before it began for this 18-year-old who lost her licence after only two hours&Non-Critical&Non-Critical\\
+\hline
+
 \bottomrule
 \end{tabular}
 \end{center}

@@ -1,4 +1,21 @@
 \chapter{Method} \label{method}
+The first step in building a classifier for critical news is to acquire a dataset containing the labels for critical news and non-critical news. Once the dataset is obtained, the TF-IDF algorithm can be used to compute the IDF values for the unigram terms on the dataset.  The algorithm is then used to convert each document to it's respective vector representation. 
+
+The vectors for documents are then separated into training and test set. The training set is used to train and validate the models whereas the test set is used to evaluate the performance of the models. The \figureref{fig:training} shows the overall steps involved in constructing and evaluating the classifier models.
+
+\begin{figure}[h]
+    \cfig{3}{training.png}{3}
+    \caption{Flow diagram for training and testing}
+    \label{fig:training}
+\end{figure}
+
+In order to predict the class labels for a news article. The content of the article is first passed through the TF-IDF algorithm which returns a vector representation for the text. The vector then can be used to predict the class assignment by using one of the pre-trained classifier. The process of predicting class labels using a pre-trained classifier is shown in \figureref{fig:prediction}.
+
+\begin{figure}[h]
+    \cfig{3}{prediction.png}{3}
+    \caption{Flow diagram for predicting class label using pre-trained model}
+    \label{fig:prediction}
+\end{figure}
 
 % Data Acquisition
 \section{Data Acquisition}
@@ -29,10 +46,10 @@ Each tweet was then manually labeled as either a critical news or non critical n
 \label{tbl:dataset_statistics}
 \begin{tabular}{@{}lccc@{}}
 \toprule 
-\rule[-1pt]{0pt}{14pt}Label&Number of samples\\
+Label&Number of samples\\
 \midrule 
-\rule[-1pt]{0pt}{14pt}Critical&1548\\
-\rule[-1pt]{0pt}{14pt}Non-critical&595\\
+Critical&1548\\
+Non-critical&595\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -44,73 +61,155 @@ Each tweet was then manually labeled as either a critical news or non critical n
 \label{tbl:dataset_sample}
 \begin{tabular}{p{12cm}p{2cm}}
 \toprule 
-\rule[-1pt]{0pt}{14pt}Text&Label\\
+Text&Label\\
 \midrule 
-\rule[-1pt]{0pt}{14pt}Great news!! Missing 20-year-old Melissa Wilson has been located safe and well. Thank you for the shares!&Critical\\
+Great news!! Missing 20-year-old Melissa Wilson has been located safe and well. Thank you for the shares!&Critical\\
 \hline
-\rule[-1pt]{0pt}{14pt}Detectives investigating the murder of Kwabena Nelson in Tottenham have made an arrest Haringey&Critical\\
+Detectives investigating the murder of Kwabena Nelson in Tottenham have made an arrest Haringey&Critical\\
 \hline
-\rule[-1pt]{0pt}{14pt}Police were appealing for help to find John Streek who was missing from Bromley. Mr Streek has been found safe and well. Many thanks for the retweets.&Critical\\
+Police were appealing for help to find John Streek who was missing from Bromley. Mr Streek has been found safe and well. Many thanks for the retweets.&Critical\\
 \hline
-\rule[-1pt]{0pt}{14pt}Dedicated NYPD cops fighting crime, NeighborhoodPolicing, precision policing, and New Yorkers sharing the responsibility of public safety has made NYC the safest
+Dedicated NYPD cops fighting crime, NeighborhoodPolicing, precision policing, and New Yorkers sharing the responsibility of public safety has made NYC the safest
 big city in America.&Non-Critical\\
 \hline
-\rule[-1pt]{0pt}{14pt}Father, husband, and @USMC veteran, Corporal Mujahid Ramzziddin of the Prince George County Police Department in Maryland gave his life defending a woman who was being attacked during a domestic violence incident. We will NeverForget his sacrifice. &Non-Critical\\
+Father, husband, and @USMC veteran, Corporal Mujahid Ramzziddin of the Prince George County Police Department in Maryland gave his life defending a woman who was being attacked during a domestic violence incident. We will NeverForget his sacrifice. &Non-Critical\\
 \hline
-\rule[-1pt]{0pt}{14pt}Incredible life-saving medical measures and an amazing will to survive saved Chief Petty Officer Kenton Stacy after he sustained severe injuries from an IED while clearing a hospital in Raqqa, Syria.&Non-Critical\\
+Incredible life-saving medical measures and an amazing will to survive saved Chief Petty Officer Kenton Stacy after he sustained severe injuries from an IED while clearing a hospital in Raqqa, Syria.&Non-Critical\\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
 
-
 % Text Processing
 \section{Text Processing}
 \subsection{Tokenization}
-Tokenization is the first step in processing a text which converts the text into a sequence of words. The tokenization is done with the help of NLTK\cite{loper2002nltk} python library which discards everything except words containing English alphabets. Furthermore, a regular expression was used to remove the URLs from the text.
+The tokenization is done with the help of NLTK\cite{loper2002nltk} python library which discards everything except words containing English alphabets. Furthermore, a regular expression was used to remove the URLs from the text.
 
 \subsection{Stop word filtering}
-There are several words such as "a", "the", "you" etc which are very common across every text. A significant improvement can be seen in most text classifiers by filtering out such words from the feature set\cite{silva2003importance}. These words that are generally filtered out during the text processing are known as stop words. The NLTK library contains lists of stop words that can be used to filter the tokens. For each token, a comparison is made with stop words one at a time and if a match is found the token is discarded from the feature set. The stop words for English text in NLTK library are as follows,
+The NLTK library contains lists of stop words that can be used to filter the tokens. For each token, a comparison is made with stop words one at a time and if a match is found the token is discarded from the feature set. The stop words for English text in NLTK library is shown in \tableref{tbl:stop_words},
 
-['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', "don't", 'should', "should've", 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', "aren't", 'couldn', "couldn't", 'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn', "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"]
+\begin{table}
+\begin{center}
+\caption{English stopwords in nltk}
+\label{tbl:stop_words}
+\begin{tabular}{@{}lccccccc@{}}
+\toprule
+i&me&my&myself&we&our&ours\\ \hline 
+ourselves&you&you're&you've&you'll&you'd&your\\ \hline 
+yours&yourself&yourselves&he&him&his&himself\\ \hline 
+she&she's&her&hers&herself&it&it's\\ \hline 
+its&itself&they&them&their&theirs&themselves\\ \hline 
+what&which&who&whom&this&that&that'll\\ \hline 
+these&those&am&is&are&was&were\\ \hline 
+be&been&being&have&has&had&having\\ \hline 
+do&does&did&doing&a&an&the\\ \hline 
+and&but&if&or&because&as&until\\ \hline 
+while&of&at&by&for&with&about\\ \hline 
+against&between&into&through&during&before&after\\ \hline 
+above&below&to&from&up&down&in\\ \hline 
+out&on&off&over&under&again&further\\ \hline 
+then&once&here&there&when&where&why\\ \hline 
+how&all&any&both&each&few&more\\ \hline 
+most&other&some&such&no&nor&not\\ \hline 
+only&own&same&so&than&too&very\\ \hline 
+s&t&can&will&just&don&don't\\ \hline 
+should&should've&now&d&ll&m&o\\ \hline 
+re&ve&y&ain&aren&aren't&couldn\\ \hline 
+couldn't&didn&didn't&doesn&doesn't&hadn&hadn't\\ \hline 
+hasn&hasn't&haven&haven't&isn&isn't&ma\\ \hline 
+mightn&mightn't&mustn&mustn't&needn&needn't&shan\\ \hline 
+shan't&shouldn&shouldn't&wasn&wasn't&weren&weren't\\ \hline 
+won&won't&wouldn&wouldn't\\ \hline 
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
 
-In addition to the above words, following words were also added to the stop word list in order to help the classifier generalize better.
+In addition to the above words, the words shown in \tableref{tbl:extra_stop_words} were also added to the stop word list in order to help the classifier generalize better.
 
-['nypdprotect', 'nypdconnect', 'nypd', 'nypdoneil', 'nypdpsa', 'nypdchiefofdept', 'nypdbklynnorth', 'nypdtransit', 'nypddetect', 'nypdnew', 'nypdspecialop', 'nypdchiefpatrol', 'nypdhighway', 'nypdtransport', 'nypdconnect', 'nypdoneil', 'nycsafenypdorg', 'nypdct', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'seattlepd', 'seattledot', 'seattlefir', 'seattle', 'brooklyn', 'manhattan', 'one', 'two', 'three', 'four', 'five', 'six', 'vicpolicenew', 'victoriapolic', 'jointhemet', 'seattlefir', 'metpoliceuk', 'richmond', 'nycgov', 'https', 'nyc', 'nycdot']
+\begin{table}
+\begin{center}
+\caption{Extra stop words}
+\label{tbl:extra_stop_words}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+nypdprotect&nypdconnect&nypd&nypdoneil&nypdpsa\\ \hline 
+nypdchiefofdept&nypdbklynnorth&nypdtransit&nypddetect&nypdnew\\ \hline 
+nypdspecialop&nypdchiefpatrol&nypdhighway&nypdtransport&nypdconnect\\ \hline 
+nypdoneil&nycsafenypdorg&nypdct&nypdcentralpark&nycoem\\ \hline 
+nypddetectives&sunday&monday&tuesday&wednesday\\ \hline 
+thursday&friday&saturday&seattlepd&seattledot\\ \hline 
+seattlefir&seattle&brooklyn&manhattan&one\\ \hline 
+two&three&four&five&six\\ \hline 
+vicpolicenews&victoriapolice&jointhemet&seattlefir&metpoliceuk\\ \hline 
+mpswestminster&richmond&nycgov&https&nyc\\ \hline 
+nycdot&january&february&march&april\\ \hline 
+may&june&july&august&september\\ \hline 
+october&november&december\\ \hline 
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
 
 \subsection{Stemming}
-Stemming is the process of reducing the inflected words to their stem or root. For example, the word "happiness" can be reduced to it's stem "happy", the word "loved" can also be reduced to it's stem "love". By reducing the words to their stem, not only does the number of feature decrease the feature set itself improves as the inflected words of a same stem will be considered as a single feature instead of multiple features. The implementation of Porter's algorithm\cite{porter1980algorithm} found in NLTK was used for stemming the words.
+The implementation of Porter's algorithm\cite{porter1980algorithm} found in NLTK was used for stemming the words.
 
 \subsection{TF-IDF}
-TF-IDF\cite{sparck1972statistical} is rather simpler feature weighing scheme that assigns weight to the words as per the occurrence in the text and it's importance in the corpus. TF-IDF for a term $t$ in a document $d$ is calculated as a product of two terms; Term Frequency and Inverse Document Frequency. 
-\begin{equation}
-    tfidf(t, d) = tf(t, d) * idf(t)
-\end{equation}
+The scikit-learn\footnote{\url{http://scikit-learn.org/stable/index.html}} python library is used to obtain the TF-IDF values for the stems.
 
-The TF for a term in a document is the count of the term in the document. The IDF of a term is calculated as follows,
-\begin{equation}
-    idf(t) = \log{\frac{N}{1 + df(t)}}
-\end{equation}
+\subsubsection{IDF Calculation}
+The IDF values for the stems are pre calculated using the entire dataset and the top 1000 stems with the highest IDF values are selected. The terms and it's respective IDF value are stored in the file system to be used later on to compute the TF-IDF feature vector. The \tableref{tbl:idf_stems} shows the top 50 stems with the respective IDF values obtained from the IDF calculation. The complete list of 1000 stems selected from the dataset is shown in \appendixref{ch:1000_stems}.
 
-Where, $N$ is the number of total numer of documents and $df(t)$ is the number of documents that contains the term $t$.\par
-The vectors thus obtained are then normalized using the $L^2$ norm.
+\begin{table}
+\begin{center}
+\caption{Top 50 IDF stems}
+\label{tbl:idf_stems}
+\begin{tabular}{@{}lc|cc|cr|@{}}
+\toprule
+stem&IDF value&stem&IDF value&stem&IDF value\\ \hline
+\midrule
+fit&7.46&graffiti&7.46&valentin&7.33\\ \hline 
+ring&7.33&harrow&7.33&mother&7.21\\ \hline 
+food&7.21&tragedi&7.21&veteran&7.21\\ \hline 
+focus&7.21&tuozzolo&7.21&church&7.21\\ \hline 
+design&7.21&vote&7.21&mornington&7.21\\ \hline 
+psos&7.21&babi&7.1&impact&7.1\\ \hline 
+coordin&7.1&class&7.1&without&7.1\\ \hline 
+extra&7.1&situat&7.1&came&7.1\\ \hline 
+worth&7.1&civilian&7.1&b&7.1\\ \hline 
+brown&7.1&greatest&7.1&count&7.1\\ \hline 
+medic&7.1&robert&7.1&citizen&7.1\\ \hline 
+strand&7.1&page&7.1&true&7.1\\ \hline 
+h&7.1&thief&7.1&encourag&7.1\\ \hline 
+yrs&7.1&film&7.1&tunnel&7.1\\ \hline 
+u&7.1&green&7.1&woolwich&7.1\\ \hline 
+londonfir&7.1&imprison&7.1&btwn&7.1\\ \hline 
+break&7.1&&&&\\ \hline 
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsubsection{Normalization}
+The TF-IDF vectors obtained is then normalized using the $L^2$ norm.
 \begin{equation}
     v_{norm} = \frac{v}{\lVert v \rVert}
 \end{equation}
 
-The scikit-learn\footnote{\url{http://scikit-learn.org/stable/index.html}} python library is used to obtain the TF-IDF values for the words. The IDF values for the terms are pre calculated using the entire corpus and the top 1000 terms with the highest IDF values are selected. These terms are then stored in the file system to be used later on to compute the TF-IDF feature vector.
-
-% Text Processing
 \section{Classification}
-The classifier models were implemented with the help of scikit-learn python library. The models were used are as follows,
-
+\subsection{Models}
+The classifier models were implemented using the scikit-learn python library. The models that were implemented are:
 \begin{itemize}
-    \item Regularized Logistic Regression
-    \item Support Vector Machine with RBF Kernel
-    \item Random Forest
-    \item Neural Network
+    \item \textbf{Logistic Regression:} A regularized logistic regression.
+    \item \textbf{Support Vector Machine:} A support vector machine with RBF kernel.
+    \item \textbf{Random Forests}
+    \item \textbf{Neural Network:} A three layer neural network with one hidden layer.
 \end{itemize}
 
-% May need to explain the process of searching for hyperparamters
+\subsection{Training}
+At first, the dataset is randomly separated into training and test set using a 80-20 split. The test set remains unused during the training phase and training proceeds with the training dataset.
 
-At first, the dataset separated into training and test set by using a 80-20 split. The classifiers are trained on the training set using the 5 fold cross validation technique to select the best hyperparameters. The performance of the classifier is then evaluated on the test set.
+For each classifier, the hyperparameters are optimized by using random search and 5 fold cross validation technique.
+
+\subsection{Testing}
+In order to test the performance of the models, they are trained on the whole training set using the best hyperparameters obtained from the cross-validation stage. The performance of the model is then evaluated on the test set separated at the beginning of the training stage.
