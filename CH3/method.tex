@@ -1,7 +1,7 @@
 \chapter{Method} \label{method}
-The first step in building a classifier for critical news is to acquire a dataset containing the labels for critical news and non-critical news. Once the dataset is obtained, the TF-IDF algorithm can be used to compute the IDF values for the unigram terms on the dataset.  The algorithm is then used to convert each document to it's respective vector representation. 
+The first step in building a classifier for critical news is to acquire a dataset containing the labels for critical and non-critical news. Once the dataset is obtained, the TF-IDF algorithm can then be used to compute the IDF values for the unigram terms which are used to obtain the vector representation of the text. 
 
-The vectors for documents are then separated into training and test set. The training set is used to train and validate the models whereas the test set is used to evaluate the performance of the models. The \figureref{fig:training} shows the overall steps involved in constructing and evaluating the classifier models.
+The vectors for documents are then separated into a training set and a test set. The training set is used to train and validate the models whereas the test set is used to evaluate the performance of the models. The overall steps that are used to train and test the classifiers is shown in \figureref{fig:training}.
 
 \begin{figure}[h]
     \cfig{3}{training.png}{3}
@@ -9,7 +9,7 @@ The vectors for documents are then separated into training and test set. The tra
     \label{fig:training}
 \end{figure}
 
-In order to predict the class labels for a news article. The content of the article is first passed through the TF-IDF algorithm which returns a vector representation for the text. The vector then can be used to predict the class assignment by using one of the pre-trained classifier. The process of predicting class labels using a pre-trained classifier is shown in \figureref{fig:prediction}.
+In order to predict a class labels for a new article, the TF-IDF algorithm is used to obtain a vector representation for the text. The vector then can be used to predict the class assignment by using one of the pre-trained classifier. The process of predicting class labels using a pre-trained classifier is shown in \figureref{fig:prediction}.
 
 \begin{figure}[h]
     \cfig{3}{prediction.png}{3}
@@ -17,15 +17,16 @@ In order to predict the class labels for a news article. The content of the arti
     \label{fig:prediction}
 \end{figure}
 
-% Data Acquisition
-\section{Data Acquisition}
-As per the definition of critical news, there are certain characteristics that a text should have in order to be labeled as a critical news. Due to this reason, a dataset does not exists that fits the categorization of text into critical and non-critical news. This prompted the creation of a new dataset for critical and non critical news.\par
+\section{Dataset}
+As per the definition, there are certain pre-conditions that a text should satisfy in order to be labeled as a critical news. Due to this reason, a dataset that perfectly fits the categorization of text into critical and non-critical news does not exists. This prompted the creation of a new dataset for critical and non critical news.
+
+\subsection{Data Acquisition}
 The unlabelled dataset was obtained from the Tweets of the following Twitter users using the Twitter API\footnote{\url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html}} and python library python-oauth2\footnote{\url{https://github.com/joestump/python-oauth2}}.
 
 \begin{itemize}
     \item NYPD NEWS\footnote{\url{https://twitter.com/nypdnews}}
     \item Metropolitan Police\footnote{\url{https://twitter.com/metpoliceuk}}
-    \item  Victoria Police\footnote{\url{https://twitter.com/VictoriaPolice}}
+    \item Victoria Police\footnote{\url{https://twitter.com/VictoriaPolice}}
     \item Seattle Police Dept\footnote{\url{https://twitter.com/SeattlePD}}
     \item NYPDCounterterrorism\footnote{\url{https://twitter.com/NYPDCT}}
 \end{itemize}
@@ -38,13 +39,14 @@ meetings on how they are connecting local NYPD police officers with
 the community. https://t.co/D6K5DWxWWm https://t.co/NM0AWpPgja
 \end{verbatim}
 
-Each tweet was then manually labeled as either a critical news or non critical news and store in the database. The statistics of dataset is shown in \tableref{tbl:dataset_statistics} and a sample of data is shown in \tableref{tbl:dataset_sample}.
+\subsection{Labelling}
+Each tweet was then manually labeled as either a critical news or non-critical news based on the pre-conditions. The statistics of new dataset constructed is shown in  \tableref{tbl:dataset_statistics} and some examples of the labels and their explanation are given below.
 
-\begin{table}
+\begin{table}[h]
 \begin{center}
 \caption{Critical news dataset statistics}
 \label{tbl:dataset_statistics}
-\begin{tabular}{@{}lccc@{}}
+\begin{tabular}{lr}
 \toprule 
 Label&Number of samples\\
 \midrule 
@@ -55,30 +57,29 @@ Non-critical&595\\
 \end{center}
 \end{table}
 
-\begin{table}
-\begin{center}
-\caption{Sample of dataset}
-\label{tbl:dataset_sample}
-\begin{tabular}{p{12cm}p{2cm}}
-\toprule 
-Text&Label\\
-\midrule 
-Great news!! Missing 20-year-old Melissa Wilson has been located safe and well. Thank you for the shares!&Critical\\
-\hline
-Detectives investigating the murder of Kwabena Nelson in Tottenham have made an arrest Haringey&Critical\\
-\hline
-Police were appealing for help to find John Streek who was missing from Bromley. Mr Streek has been found safe and well. Many thanks for the retweets.&Critical\\
-\hline
-Dedicated NYPD cops fighting crime, NeighborhoodPolicing, precision policing, and New Yorkers sharing the responsibility of public safety has made NYC the safest
-big city in America.&Non-Critical\\
-\hline
-Father, husband, and @USMC veteran, Corporal Mujahid Ramzziddin of the Prince George County Police Department in Maryland gave his life defending a woman who was being attacked during a domestic violence incident. We will NeverForget his sacrifice. &Non-Critical\\
-\hline
-Incredible life-saving medical measures and an amazing will to survive saved Chief Petty Officer Kenton Stacy after he sustained severe injuries from an IED while clearing a hospital in Raqqa, Syria.&Non-Critical\\
-\bottomrule
-\end{tabular}
-\end{center}
-\end{table}
+\subsubsection{Labelling for Sample 1}
+\textbf{Text:}
+\textit{Great news!! Missing 20-year-old Melissa Wilson has been located safe and well. Thank you for the shares!}\par
+\textbf{Label:} Critical\par
+\textbf{Explanation:} A number of people might still be looking for the missing person either actively or inactively. Any updates to the whereabouts of the person would be an important information for those people. The text mentions that the missing person has been found and is safe and well. If the missing person has been in fact located, the people searching for the person could stop searching for the person and can continue with their other tasks. Since the content present affects a large number of people, changes their routines of their daily life, and needs to be verified it would be labelled as critical.
+
+\subsubsection{Labelling for Sample 2}
+\textbf{Text:}
+\textit{Detectives investigating the murder of Kwabena Nelson in Tottenham have made an arrest Haringey.}\par
+\textbf{Label:} Critical\par
+\textbf{Explanation:} A murder of a person induces fear in a number of people who might be living in the same location where the crime supposed to have occurred. The people living in the area might avoid walking alone in the neighbourhood at night, cancel their plans of moving in an apartment near the area or even move out of the area after knowing about it. And, knowing that the detectives made an arrest on the crime would be a very important information that might bring a slight relief on their behalf. As the content affect large number of people, changes their routines of their daily life and needs to be verified it would be labelled as critical.
+
+\subsubsection{Labelling for Sample 3}
+\textbf{Text:}
+\textit{Great example of NYPDconnecting in the Bronx. NYPD49Pct Neighbor- hoodPolicing officers worked with the community to address a garbage condition on a resident block in their neighborhood.}\par
+\textbf{Label:} Non-Critical\par
+\textbf{Explanation:} The number of people the text could concern would be physically limited to the people living around that neighborhood. And, even for those people addressing a garbage condition would be a minor concern. The information that the problem was resolved could hardly change their behavior. For most of them, their life would continue the same way even after obtaining the information. As the number of people that the text affects is small and could hardly change their daily routine, the text should be labelled as non-critical.
+
+\subsubsection{Labelling for Sample 4}
+\textbf{Text:}
+\textit{It was over before it began for this 18-year-old who lost her licence after only two hours.}\par
+\textbf{Label:} Non-Critical\par
+\textbf{Explanation:} The information in the content is a personal level news which most of the time is essential for immediate family members and friends only. And, even for those people the information that the person lost their licence could hardly be a matter of great importance as long as the person is safe. Since the content does not describe any unfortunate events, the only new information would be that the person lost their licence. For most of the immediate family and friends their life would continue the same way as before even after reading about the news. Since it fails to affect the daily routines of significant number of people it should be labelled as non-critical.
 
 % Text Processing
 \section{Text Processing}
@@ -86,13 +87,13 @@ Incredible life-saving medical measures and an amazing will to survive saved Chi
 The tokenization is done with the help of NLTK\cite{loper2002nltk} python library which discards everything except words containing English alphabets. Furthermore, a regular expression was used to remove the URLs from the text.
 
 \subsection{Stop word filtering}
-The NLTK library contains lists of stop words that can be used to filter the tokens. For each token, a comparison is made with stop words one at a time and if a match is found the token is discarded from the feature set. The stop words for English text in NLTK library is shown in \tableref{tbl:stop_words},
+The NLTK library contains lists of stop words for English text that can be used to filter the tokens. For each token, a comparison is made with stop words one at a time and if a match is found the token is discarded from the feature set. \tableref{tbl:stop_words} shows the list of stop word present in the NLTK library.
 
 \begin{table}
 \begin{center}
 \caption{English stopwords in nltk}
 \label{tbl:stop_words}
-\begin{tabular}{@{}lccccccc@{}}
+\begin{tabular}{lcccccr}
 \toprule
 i&me&my&myself&we&our&ours\\ \hline 
 ourselves&you&you're&you've&you'll&you'd&your\\ \hline 
@@ -119,92 +120,146 @@ couldn't&didn&didn't&doesn&doesn't&hadn&hadn't\\ \hline
 hasn&hasn't&haven&haven't&isn&isn't&ma\\ \hline 
 mightn&mightn't&mustn&mustn't&needn&needn't&shan\\ \hline 
 shan't&shouldn&shouldn't&wasn&wasn't&weren&weren't\\ \hline 
-won&won't&wouldn&wouldn't\\ \hline 
+won&won't&wouldn&wouldn't\\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
 
-In addition to the above words, the words shown in \tableref{tbl:extra_stop_words} were also added to the stop word list in order to help the classifier generalize better.
+In addition to the stop words found in NLTK library, the words shown in \tableref{tbl:extra_stop_words} were also added to the stop word list. These extra set of words were added to remove the bias that these words might introduce during the training.
 
 \begin{table}
 \begin{center}
 \caption{Extra stop words}
 \label{tbl:extra_stop_words}
-\begin{tabular}{@{}lccccc@{}}
+\begin{tabular}{lcccr}
 \toprule
-nypdprotect&nypdconnect&nypd&nypdoneil&nypdpsa\\ \hline 
-nypdchiefofdept&nypdbklynnorth&nypdtransit&nypddetect&nypdnew\\ \hline 
-nypdspecialop&nypdchiefpatrol&nypdhighway&nypdtransport&nypdconnect\\ \hline 
-nypdoneil&nycsafenypdorg&nypdct&nypdcentralpark&nycoem\\ \hline 
-nypddetectives&sunday&monday&tuesday&wednesday\\ \hline 
-thursday&friday&saturday&seattlepd&seattledot\\ \hline 
-seattlefir&seattle&brooklyn&manhattan&one\\ \hline 
-two&three&four&five&six\\ \hline 
-vicpolicenews&victoriapolice&jointhemet&seattlefir&metpoliceuk\\ \hline 
-mpswestminster&richmond&nycgov&https&nyc\\ \hline 
-nycdot&january&february&march&april\\ \hline 
-may&june&july&august&september\\ \hline 
-october&november&december\\ \hline 
+nypdprotecting&nypdconnecting&nypd&nypdoneil\\ \hline 
+nypdpsa&nypdchiefofdept&nypdbklynnorth&nypdtransit\\ \hline 
+nypddetect&nypdnews&nypdspecialops&nypdchiefpatrol\\ \hline 
+nypdhighway&nypdtransport&nycsafenypdorg&nypdct\\ \hline 
+nypdcentralpark&nycoem&nypddetectives&tcsnycmarathon\\ \hline 
+sdnynews&newyorkfbi&nypdoneill&neighborhoodpolicing\\ \hline 
+timessquare&victoria&bronx&sunday\\ \hline 
+monday&tuesday&wednesday&thursday\\ \hline 
+friday&saturday&seattlepd&seattledot\\ \hline 
+seattlefir&seattle&brooklyn&manhattan\\ \hline 
+one&two&three&four\\ \hline 
+five&six&vicpolicenews&victoriapolice\\ \hline 
+jointhemet&seattlefir&metpoliceuk&mpswestminster\\ \hline 
+london&londonfire&richmond&nycgov\\ \hline 
+https&mayorjenny&nyc&nycdot\\ \hline 
+january&february&march&april\\ \hline 
+may&june&july&august\\ \hline 
+september&october&november&december\\ \hline 
+joseph&melbourne\\
+
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
 
 \subsection{Stemming}
-The implementation of Porter's algorithm\cite{porter1980algorithm} found in NLTK was used for stemming the words.
+The Porter's algorithm\cite{porter1980algorithm} is a popular stemming algorithm that can be used to reduce the inflected words to their stems. It does so by using various production rules such as the ones shown in \tableref{tbl:porter_algo}. The NLTK python library provides an implementation of the Porter's algorithm which can be used without any modification.
 
-\subsection{TF-IDF}
-The scikit-learn\footnote{\url{http://scikit-learn.org/stable/index.html}} python library is used to obtain the TF-IDF values for the stems.
+\begin{table}
+    \centering
+    \caption{Porter algorithm stemming rules}
+    \label{tbl:porter_algo}
+    \begin{tabular}{p{4cm}p{4cm}}
+    \toprule
+    Rule&Example \\
+    \midrule
+    (m$>$0) FUL -$>$  &  hopeful -$>$ hope \\
+    (m$>$0) ICATE -$>$ IC  & triplicate -$>$ triplic \\
+    (*v*) ED -$>$ & plastered -$>$ plaster \\
+    \bottomrule
+    \end{tabular}
+\end{table}
 
-\subsubsection{IDF Calculation}
-The IDF values for the stems are pre calculated using the entire dataset and the top 1000 stems with the highest IDF values are selected. The terms and it's respective IDF value are stored in the file system to be used later on to compute the TF-IDF feature vector. The \tableref{tbl:idf_stems} shows the top 50 stems with the respective IDF values obtained from the IDF calculation. The complete list of 1000 stems selected from the dataset is shown in \appendixref{ch:1000_stems}.
+\subsection{IDF Calculation}
+The IDF values for the stems are calculated using the equation \eqref{eq:idf_equation}, which are then used to sort the stems in descending order of IDF values. The sorted list for the top 50 stems is shown in \tableref{tbl:idf_stems}. The table shows that the IDF values for stems such as thief, alcohol, tragedi, and medic are high which indicates that they are better discriminator for text. Such stems with high discriminatory power are precisely the features that should be used with classification algorithms. But, it is not practical to use every single stem as a feature for classification so the number of features for the classification is reduced by selecting the top 1000 stems from the sorted list. \appendixref{1000_stems} shows the complete list of top 1000 stems selected.
 
 \begin{table}
 \begin{center}
 \caption{Top 50 IDF stems}
 \label{tbl:idf_stems}
-\begin{tabular}{@{}lc|cc|cr|@{}}
+\begin{tabular}{lc|cc|cr|}
 \toprule
-stem&IDF value&stem&IDF value&stem&IDF value\\ \hline
+stem&IDF value&stem&IDF value&stem&IDF value\\
 \midrule
-fit&7.46&graffiti&7.46&valentin&7.33\\ \hline 
-ring&7.33&harrow&7.33&mother&7.21\\ \hline 
-food&7.21&tragedi&7.21&veteran&7.21\\ \hline 
-focus&7.21&tuozzolo&7.21&church&7.21\\ \hline 
-design&7.21&vote&7.21&mornington&7.21\\ \hline 
-psos&7.21&babi&7.1&impact&7.1\\ \hline 
-coordin&7.1&class&7.1&without&7.1\\ \hline 
-extra&7.1&situat&7.1&came&7.1\\ \hline 
-worth&7.1&civilian&7.1&b&7.1\\ \hline 
-brown&7.1&greatest&7.1&count&7.1\\ \hline 
-medic&7.1&robert&7.1&citizen&7.1\\ \hline 
-strand&7.1&page&7.1&true&7.1\\ \hline 
-h&7.1&thief&7.1&encourag&7.1\\ \hline 
-yrs&7.1&film&7.1&tunnel&7.1\\ \hline 
-u&7.1&green&7.1&woolwich&7.1\\ \hline 
-londonfir&7.1&imprison&7.1&btwn&7.1\\ \hline 
-break&7.1&&&&\\ \hline 
+graffiti&7.46&ring&7.33&harrow&7.33\\ \hline 
+colour&7.33&mother&7.21&food&7.21\\ \hline 
+tragedi&7.21&veteran&7.21&bay&7.21\\ \hline 
+leg&7.21&tuozzolo&7.21&church&7.21\\ \hline 
+design&7.21&termin&7.21&vote&7.21\\ \hline 
+mornington&7.21&psos&7.21&brief&7.21\\ \hline 
+babi&7.1&race&7.1&pull&7.1\\ \hline 
+trade&7.1&post&7.1&coordin&7.1\\ \hline 
+class&7.1&extra&7.1&complaint&7.1\\ \hline 
+ps&7.1&came&7.1&worth&7.1\\ \hline 
+teamwork&7.1&adult&7.1&civilian&7.1\\ \hline 
+notic&7.1&collaps&7.1&brown&7.1\\ \hline 
+greatest&7.1&terenc&7.1&count&7.1\\ \hline 
+medic&7.1&plenti&7.1&akay&7.1\\ \hline 
+one&7.1&citizen&7.1&noth&7.1\\ \hline 
+strand&7.1&page&7.1&alcohol&7.1\\ \hline 
+true&7.1&thief&7.1&&\\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
 
-\subsubsection{Normalization}
-The TF-IDF vectors obtained is then normalized using the $L^2$ norm.
+% These stems that were selected are precisely the features that the classifier would use to assign the class to a text.
+
+\subsection{TF-IDF}
+Once the IDF values for the terms have been calculated, the TF-IDF algorithm can be used to convert the text into a vector by multiplying the TF of the term with it's IDF value as shown in equation \eqref{eq:tf_idf_equation}. The number of dimensions that the TF-IDF vector would have is precisely the number of stems selected as the vocabulary during the IDF calculation.
+
+The vector $v$ obtained is then normalized using the $L^2$ norm as follows,
 \begin{equation}
     v_{norm} = \frac{v}{\lVert v \rVert}
 \end{equation}
 
-\section{Classification}
+The TF-IDF algorithm was implemented with the help of scikit-learn \cite{scikit-learn} python library which provides interface for computing both the IDF value for the term and calculating the TF-IDF vector for a document.
+
+% Classfication
+\section{Classification}\label{classification}
+Several classification can be used to classify the text such as Rule Based Classifiers, Neural Networks, Logistic Regression, Random Forest, Decision Trees, K-Nearest Neighbor, SVM\cite{cortes1995support}, etc. 
+% However, it has been theoretically and empirically shown that SVMs are very well suited for the text categorization problem\cite{joachims1998text}.
+The classifier models were implemented using the scikit-learn python library.
+
 \subsection{Models}
-The classifier models were implemented using the scikit-learn python library. The models that were implemented are:
-\begin{itemize}
-    \item \textbf{Logistic Regression:} A regularized logistic regression.
-    \item \textbf{Support Vector Machine:} A support vector machine with RBF kernel.
-    \item \textbf{Random Forests}
-    \item \textbf{Neural Network:} A three layer neural network with one hidden layer.
-\end{itemize}
+\subsubsection{Logistic Regression}
+A logistic regression is a binary classification algorithm that tries to construct a decision boundary as one given in \eqref{eq:regularized_logistic_regression} by minimizing a regularized cost for misclassification using a SGD algorithm.
+
+\begin{equation}
+    \label{eq:regularized_logistic_regression}
+    h_{\theta}(x) = \frac{1}{1 + {e}^{-{\theta}^{t}. x}}
+\end{equation}
+
+where $x$ is the input vector and $\theta$ is the vector containing the parameters of the decision boundary. The RBF kernel was used for detecting critical news from non-critical news.
+
+\subsubsection{Support Vector Machine}
+Support Vector Machines non-linearly map the input vectors to a very high dimensional feature space and tries to construct a linear decision surface in the new feature space \cite{cortes1995support}. The SVM can use the kernel trick to change the structure of decision surface\cite{cortes1995support}. Some kernel that can be used with SVM are as follows,
+
+Polynomial Kernel
+\begin{equation}
+    \label{eq:polynomial_kernel}
+    K(x, x^{'}) = {(x.x^{'} + 1)}^{d}
+\end{equation}
+
+RBF Kernel
+\begin{equation}
+    \label{eq:rbf_kernel}
+    K(x, x^{'}) = exp(- \frac{{\lVert x - x^{'} \rVert}^{2}}{2 \sigma^{2}})
+\end{equation}
+Where, $x$ and $x^{'}$ are the vector inputs, $d$ is the degree of the polynomial to use, and $\sigma$ is the smoothness parameter.
+
+\subsubsection{Random Forests}
+The random forests\cite{breiman2001random} is an ensemble method for decision trees\cite{quinlan1986induction} which can be used for both classification and regression analysis.  The algorithm performs the prediction task by combining the output from independent tree predictors constructed during the training phase \cite{breiman2001random}. 
+
+\subsubsection{Neural Network}
+Neural networks are a networked learning model capable of performing both classification and regression tasks. The model hierarchically constructs a deeper representation of the given input and tries to perform the prediction task on the representation constructed. 
 
 \subsection{Training}
 At first, the dataset is randomly separated into training and test set using a 80-20 split. The test set remains unused during the training phase and training proceeds with the training dataset.

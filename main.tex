@@ -55,6 +55,7 @@
 
 \usepackage[]{uahdis,chngpage,units,bm,hhline,rotating,verbatim,amsfonts,amssymb,xspace}
 \usepackage[]{indentfirst,layouts, booktabs, enumerate, gensymb}
+\usepackage{color,soul}
 
 %My Packages
 \usepackage[hyphens]{url}
@@ -235,6 +236,16 @@
 %   appendices environment, which tells LaTeX to give them letters
 %   instead of numbers.
 
+
+\backmatter
+
+%   Include my bibliography
+\include{./BIBLIOGRAPHY/bibliography}
+
+%   Include my biography
+%\include{./BACK/biography}
+% MWT - biography not included in UAH thesis
+
 \begin{appendices}
 \appendix
 %
@@ -248,15 +259,6 @@
 %%   Here comes the stuff after the main content
 %%   turn off appendix environment/package first:
 \end{appendices}
-
-\backmatter
-
-%   Include my bibliography
-\include{./BIBLIOGRAPHY/bibliography}
-
-%   Include my biography
-%\include{./BACK/biography}
-% MWT - biography not included in UAH thesis
 
 
 %   We're done.
