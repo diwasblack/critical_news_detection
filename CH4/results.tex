@@ -1,7 +1,7 @@
 \chapter{Experiments and Results} \label{result}
 
 \section{Dataset}
-In order to gain insight into the dataset, it is better to first visualize the data. Visualizing a high dimensional data requires reducing the number of features to either 2 or 3. The feature reduction could be done by using various dimensionality reduction algorithms \cite{tenenbaum2000global, roweis2000nonlinear} but the t-SNE\cite{maaten2008visualizing} is an algorithm which is well suited for feature reduction for the purpose of data visualization. The algorithm takes the TF-IDF vectors obtained from the text processing step and produces a 2D vector representation for each document. The reduced vectors were then plotted using the matplotlib\cite{hunter2007matplotlib} python library. 
+In order to gain insight into the dataset, it is better to first visualize the data. Visualizing a high dimensional data requires reducing the number of features to either 2 or 3. The feature reduction could be done by using various dimensionality reduction algorithms \cite{tenenbaum2000global, roweis2000nonlinear} but the t-SNE\cite{maaten2008visualizing} is an algorithm which is well-suited for feature reduction for the purpose of data visualization. The algorithm takes the TF-IDF vectors obtained from the text processing step and produces a 2D vector representation for each document. The reduced vectors were then plotted using the matplotlib\cite{hunter2007matplotlib} python library. 
 
 \begin{figure}[h]
     \cfig{4}{data_visualization.png}{5}
@@ -12,7 +12,7 @@ In order to gain insight into the dataset, it is better to first visualize the d
 The \figureref{fig:dataset} shows the result of applying t-SNE algorithm on the dataset. It shows that on average, the feature vectors of critical news are different from the feature vectors of non-critical news which is a desired outcome. However, the dataset does look a bit noisy and the margin of separation between classes is also a bit thin. Such characteristics of the dataset could introduce errors during classification.
 
 \section{Classification Performance}
-The performance of the classifiers for five separate runs on the critical news dataset is shown in \tableref{tbl:critical_news_performance} and the average performance of those runs is shown in \tableref{tbl:average_performance}. The results show that on average, the models achieve a reasonably high performance which are comparable to one another. It also shows that performance of the Neural Network model is sightly better than other models.
+The performance of the classifiers for five separate runs on the critical news dataset is shown in \tableref{tbl:critical_news_performance} and the average performance of those runs is shown in \tableref{tbl:average_performance}. The results show that on average, the models achieve a reasonably high performance which are comparable to one another; furthermore, it also shows that the Neural Network model performs slightly better than rest of the models.
 
 \begin{table}
 \begin{center}
@@ -71,13 +71,11 @@ Neural Network&\textbf{93.654}&91.602&91.685&\textbf{91.43}\\
 \end{center}
 \end{table}
 
-The \figureref{fig:dataset} shows that the TF-IDF vector of a critical news is usually different from the TF-IDF vector of non-critical news, so there is a noticeable separation of region in the reduced feature space. The separation is simple enough that a linear decision boundary could correctly classify most of the articles. As the separation of classes is simple in the reduced feature space, it should be the case that the articles should not be too hard to classify in the original high dimensional feature space. The performance of the regularized logistic regression as shown in \tableref{tbl:average_performance} seems to validate this hypothesis.
+As shown in \figureref{fig:dataset}, the feature vectors of critical news are on average different from the feature vectors of non-critical news. So, there is a noticeable separation between the two classes. The separation is simple enough that a linear decision boundary could correctly classify most of the articles. As the separation is simple in the reduced feature space, it should be the case that the articles should not be too hard to classify in the original high dimensional feature space as well. This, indeed, seems to be the reason behind the decent performance of the Logistic Regression model.
 
-Since, the logistic regression model was able to achieve a pretty decent performance on the test dataset. It would imply that complex classifier models should at least achieve the same performance achieved by the logistic regression model. But, the problems with the dataset itself would limit the accuracy that can be achieved by the models. That might be the reason behind
-barely better performance of complex models.
+Since the Logistic Regression model was able to achieve a good performance on the test dataset, it would imply that complex classifier models should at least achieve the same performance as the Logistic Regression model. However, the problems with the dataset itself would limit models from obtaining a significantly better performance than the Logistic Regression model. And, the average performance of the models shown in \tableref{tbl:average_performance} seem to comply with that hypothesis.
 
-\tableref{tbl:correct_predictions} shows some of the correctly labelled predictions by the Neural Network model. It shows that the classifier is able to identify the critical news articles when the text clearly contains the important features such as detect, robberi, stab, fatal, etc. In a similar manner, the classifier is able to identify a text as non-critical when the text clearly
-does not contain those kind of features.
+Some of the correctly classified articles by the Neural Network model in the test set are shown in \tableref{tbl:correct_predictions}. It shows that the classifier is able to identify the critical news articles when the text clearly contains important stems such as "detect", "robberi", "stab", "fatal", etc and the classifier is able to identify a non-critical news article when the text clearly lacks those kind of stems.
 
 \begin{table}
 \begin{center}
@@ -104,7 +102,7 @@ It was over before it began for this 18-year-old who lost her licence after only
 \end{center}
 \end{table}
 
-But the classifier does incorrectly label several text during the testing, some of which are shown in \tableref{tbl:incorrect_predictions}. There might be several reason which could have caused the mislabelling. It might be that the TF-IDF vector representation of the text fails to capture the meaning of the text or it might be simply because of the fact the classifier is not complex enough to make the prediction based on the features used.
+But the classifier does incorrectly label several texts during the testing, some of which are shown in \tableref{tbl:incorrect_predictions}. There might be several reasons which could have caused the mislabelling. It might be that the TF-IDF vector representation of the text is inadequate to capture the meaning of the text or it might be simply because the classifier is not complex enough to make the prediction based on the features used.
 
 \begin{table}
 \begin{center}
@@ -130,7 +128,7 @@ Reminder, National Drug Take Back Day is tomorrow.  Good opportunity to rid your
 \end{center}
 \end{table}
 
-The prediction of the Neural Network model on some real world data is shown in \tableref{tbl:real_prediction}. It is evident from the table that the classifier does 
+In a similar manner, the class assignment predicted by the Neural Network model on some recent news articles is shown in \tableref{tbl:real_prediction}. The performance of the model in the new articles is quite similar to the performance in the test set. The articles which clearly contain important features like "beat", "death", "shoot", "police", etc are labelled as critical and articles which clearly do not contain those kinds of features are labelled as non-critical.
 
 \begin{table}
 \begin{center}
@@ -140,13 +138,17 @@ The prediction of the Neural Network model on some real world data is shown in \
 \toprule 
 Text&Predicted\\
 \midrule 
-Kanye West doesn’t see any reason why he can’t support Donald Trump and Colin Kaepernick at the same time – and he has the outfit to prove it.  The 41-year-old rapper turned up at the New York office of The Fader rocking both a “redesigned” MAGA hat and a sweatshirt with the controversial football player’s name printed across the chest on Thursday morning.&Non-Critical \\
-\hline
-CHICAGO (AP) - Following years of reformulating at McDonald's, the company announced that seven of its burgers are now preservative-free. As of Wednesday, the world's largest burger chain the changes have been applied to their: hamburger, cheeseburger, double cheeseburger, McDouble, Quarter Pounder with Cheese, double Quarter Pound with Cheese and Big Mac. &Non-Critical \\
+A man suspected of viciously beating two homeless men to death in California was previously deported six times. &Critical \\
 \hline
 A shooting has reportedly occurred at Hebron High School in Carrollton, Texas, according to Fox 4 News.  Police say the scene is now secure, and that one adult was shot during a junior varsity football game. No students were involved. &Critical \\
 \hline
 A body believed to be that of a 6-year-old boy with special needs who went missing in North Carolina was found in a creek near the park where he was last seen, authorities said.&Critical \\
+\hline
+At least 832 people now known to have died in Indonesian earthquake and tsunami - emergency officials &Non-Critical \\
+\hline
+Kanye West doesn’t see any reason why he can’t support Donald Trump and Colin Kaepernick at the same time – and he has the outfit to prove it.  The 41-year-old rapper turned up at the New York office of The Fader rocking both a “redesigned” MAGA hat and a sweatshirt with the controversial football player’s name printed across the chest on Thursday morning.&Non-Critical \\
+\hline
+CHICAGO (AP) - Following years of reformulating at McDonald's, the company announced that seven of its burgers are now preservative-free. As of Wednesday, the world's largest burger chain the changes have been applied to their: hamburger, cheeseburger, double cheeseburger, McDouble, Quarter Pounder with Cheese, double Quarter Pound with Cheese and Big Mac. &Non-Critical \\
 \bottomrule
 \end{tabular}
 \end{center}

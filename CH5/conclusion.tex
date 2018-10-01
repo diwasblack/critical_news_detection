@@ -1,21 +1,23 @@
 \chapter{Conclusion}\label{conclusion}
-The key idea that this thesis explores is that for fake news detection there are news on topics such as infotainment, personal news, health tips, etc which are somewhat unimportant so it is not necessary to verify the truthfulness of such articles.
+The key idea that this thesis explores is that for fake news detection there are articles on topics such as infotainment, personal news, health tips, etc which are somewhat unimportant so it is not necessary to verify the truthfulness of such articles.
 
-In order to formalize the problem better, a new term "critical news" was introduced which is defined as,
+In order to formalize the problem better, a new term "critical news" was defined,
 
 \enquote{A text is labeled as critical if it affects significant number of people, changes the routines of daily life, and needs verification on the information presented.}
 
-The goal of the thesis was then to see if it was possible to construct a binary classifier that was able to separate a critical news from a non-critical news.
+The goal of the thesis was then to see if it was possible to construct a classifier that was able to separate a critical news story from a non-critical news story.
 
-The first step was to acquire a dataset containing the labels for critical and non-critical news. A new dataset was created by manually labelling the posts of Twitter's users; NYPD News, Metropolitan Police, Victoria Police, Seattle Police Dept, and NYPDCounterterrorism. The result of that effort was a dataset with 1548 critical and 595 non-critical news articles.
+A new dataset was created by manually labelling the posts of several Twitter accounts: NYPD News, Metropolitan Police, Victoria Police, Seattle Police Dept, and NYPDCounterterrorism as either critical or as non-critical. The result of that effort was a dataset with 1548 critical and 595 non-critical Tweets.
 
-For each article in the dataset, a 1000 dimensional vector was obtained by using the TF-IDF algorithm with unigram terms. The vectors were then used to train and evaluate the performance of multiple classifiers; Regularized Logistic Regression, Random Forests, Support Vector Machine, and Neural Network.
+The TF-IDF algorithm was then used to convert an article to a 1000 dimensional vector that would capture the distinguishing features of the text. The vectors were then used to train and evaluate the performance of multiple classifiers: Regularized Logistic Regression, Random Forests, Support Vector Machine, and Neural Network.
 
-It was observed that the classifiers performed reasonably well on the critical news detection task. The models on average were able to achieve a test accuracy greater than 90 percent with the Neural Network model achieving the high test accuracy of 93.654 percent. Which shows that it is possible build an automated classifier for critical news detection task.
+It was observed that the classifiers performed reasonably well on the critical news detection task. The models on average were able to achieve a test accuracy greater than 90 percent with the Neural Network model achieving the high test accuracy of 93.654 percent.
 
-Thus, this thesis provides yet another tool that can aid in the detection of fake news. It can be used either as a standalone tool with human reviewer to detect a fake news or it could be used with another automated fake news classifier to filter critical news that should be verified for it's truthfulness.
+Thus, the results from the experiments indicate that it is possible to construct quite an accurate classifier for separating critical news from non-critical news. Once the classifier is trained, it can be used either as a standalone tool with human reviewers to detect fake news, or it could be used with another automated fake news classifier to filter critical news that should be verified for its truthfulness.
 
 \section{Future Works}
-It has been empirically shown that most of the existing NLP system can be improved by using word embedding as extra word feature\cite{turian2010word}. However the extend of improvement that word embedding models could bring about for critical news detection remains to be seen.
+There are several possibilities that could be explored to further improve the performance of the classifier. The first step would be to refine the data and extend it if possible. Adding more samples to the dataset and eliminating noise generally improves the performance of most classifiers, which should be the case here as well.
 
-Another possibility that could be explored for improving the performance is using sequence analysis algorithms such as HMM\cite{baum1966statistical}, or Recurrent Neural Networks such as LSTM\cite{hochreiter1997long} and GRU\cite{cho2014learning}. Such algorithms could improve the prediction performance by being able to construct internal representation of the text that capture the context and deeper meaning behind the text.
+Another possibility that could be explored is to use a better feature representation of the text. The TF-IDF feature weighing scheme could be extended to other ngram models such as bigram, trigram, etc to obtain the vector representation of the text. Using higher ngram models could provide better representation of the text which could improve the performance. The feature representation of the text could also be improved by using the word embedding models. It has been empirically shown that most of the existing NLP systems can be improved by using word-embedding as an extra feature\cite{turian2010word}. However, the extent of improvement that word-embedding models could bring about for critical news detection remains to be seen.
+
+Yet another possibility that could be explored is replacing the existing classifiers with sequence analysis algorithms such as HMM\cite{baum1966statistical}, LSTM\cite{hochreiter1997long}, or GRU\cite{cho2014learning}. Such algorithms could improve the prediction performance by being able to construct an internal representation of the text that captures its context and meaning.

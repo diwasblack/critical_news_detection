@@ -220,6 +220,9 @@
  \include{./CH3/method}
  \include{./CH4/results}
  \include{./CH5/conclusion}
+ 
+ %   Include my bibliography
+\include{./BIBLIOGRAPHY/bibliography}
 
 %   This set of LaTeX files uses the Appendix Package to handle
 %   the appendices - it creates the "Appendices" page and puts
@@ -235,17 +238,6 @@
 %   chapters - the only difference is that they occur within the
 %   appendices environment, which tells LaTeX to give them letters
 %   instead of numbers.
-
-
-\backmatter
-
-%   Include my bibliography
-\include{./BIBLIOGRAPHY/bibliography}
-
-%   Include my biography
-%\include{./BACK/biography}
-% MWT - biography not included in UAH thesis
-
 \begin{appendices}
 \appendix
 %
@@ -260,6 +252,11 @@
 %%   turn off appendix environment/package first:
 \end{appendices}
 
+\backmatter
+
+%   Include my biography
+%\include{./BACK/biography}
+% MWT - biography not included in UAH thesis
 
 %   We're done.
 \end{document}
