@@ -1,15 +1,18 @@
 \chapter{Experiments and Results} \label{result}
+Once the labelled dataset is ready, the classifier models can be trained on the training set and evaluated using the test set. However, it is better to first visualize the data and then proceed with the training.
 
-\section{Dataset}
-In order to gain insight into the dataset, it is better to first visualize the data. Visualizing a high dimensional data requires reducing the number of features to either 2 or 3. The feature reduction could be done by using various dimensionality reduction algorithms \cite{tenenbaum2000global, roweis2000nonlinear} but the t-SNE\cite{maaten2008visualizing} is an algorithm which is well-suited for feature reduction for the purpose of data visualization. The algorithm takes the TF-IDF vectors obtained from the text processing step and produces a 2D vector representation for each document. The reduced vectors were then plotted using the matplotlib\cite{hunter2007matplotlib} python library. 
+Visualizing a 1000 dimensional TF-IDF vector requires reducing the number of features to either 2 or 3. The feature reduction could be done by using various dimensionality reduction algorithms \cite{tenenbaum2000global, roweis2000nonlinear} but the t-SNE\cite{maaten2008visualizing} is an algorithm which is well-suited for feature reduction for the purpose of data visualization. In this thesis, the algorithm takes the TF-IDF vectors obtained from the text processing step and produces a 2D vector representation for each document. The reduced vectors were then plotted using the matplotlib\cite{hunter2007matplotlib} python library.
+
+After carefully analyzing the visualization of the dataset, and verifying that the dataset did not have any major problems, the process of training the classifiers can continue. Once the classifiers were trained, their performance can be evaluated on the test set.
+
+\section{Dataset Visualization}
+\figureref{fig:dataset} shows the result of applying t-SNE algorithm on the critical news dataset. It shows that on average, the feature vectors of critical news are different from the feature vectors of non-critical news which is a desired outcome. However, the dataset does look a bit noisy and the margin of separation between classes is also a bit thin. Such characteristics of the dataset could introduce errors during the classification.
 
 \begin{figure}[h]
     \cfig{4}{data_visualization.png}{5}
     \caption{Dataset visualization using t-SNE}
     \label{fig:dataset}
 \end{figure}
-
-The \figureref{fig:dataset} shows the result of applying t-SNE algorithm on the dataset. It shows that on average, the feature vectors of critical news are different from the feature vectors of non-critical news which is a desired outcome. However, the dataset does look a bit noisy and the margin of separation between classes is also a bit thin. Such characteristics of the dataset could introduce errors during classification.
 
 \section{Classification Performance}
 The performance of the classifiers for five separate runs on the critical news dataset is shown in \tableref{tbl:critical_news_performance} and the average performance of those runs is shown in \tableref{tbl:average_performance}. The results show that on average, the models achieve a reasonably high performance which are comparable to one another; furthermore, it also shows that the Neural Network model performs slightly better than rest of the models.
@@ -73,9 +76,9 @@ Neural Network&\textbf{93.654}&91.602&91.685&\textbf{91.43}\\
 
 As shown in \figureref{fig:dataset}, the feature vectors of critical news are on average different from the feature vectors of non-critical news. So, there is a noticeable separation between the two classes. The separation is simple enough that a linear decision boundary could correctly classify most of the articles. As the separation is simple in the reduced feature space, it should be the case that the articles should not be too hard to classify in the original high dimensional feature space as well. This, indeed, seems to be the reason behind the decent performance of the Logistic Regression model.
 
-Since the Logistic Regression model was able to achieve a good performance on the test dataset, it would imply that complex classifier models should at least achieve the same performance as the Logistic Regression model. However, the problems with the dataset itself would limit models from obtaining a significantly better performance than the Logistic Regression model. And, the average performance of the models shown in \tableref{tbl:average_performance} seem to comply with that hypothesis.
+Since the Logistic Regression model was able to achieve a good performance on the test dataset, it would imply that complex classifier models should at least achieve the same performance as the Logistic Regression model. However, the problems with the dataset itself would limit the models from obtaining a significantly better performance than the Logistic Regression model. And, the average performance of the models shown in \tableref{tbl:average_performance} seem to comply with that hypothesis.
 
-Some of the correctly classified articles by the Neural Network model in the test set are shown in \tableref{tbl:correct_predictions}. It shows that the classifier is able to identify the critical news articles when the text clearly contains important stems such as "detect", "robberi", "stab", "fatal", etc and the classifier is able to identify a non-critical news article when the text clearly lacks those kind of stems.
+Some of the correctly classified articles by the Neural Network model in the test set are shown in \tableref{tbl:correct_predictions}. It shows that the classifier is able to identify the critical news articles when the text clearly contains important stems such as "detect", "robberi", "stab", "fatal", etc. Similarly, the classifier is able to identify a non-critical news article when the text clearly lacks those kind of stems.
 
 \begin{table}
 \begin{center}
@@ -102,7 +105,7 @@ It was over before it began for this 18-year-old who lost her licence after only
 \end{center}
 \end{table}
 
-But the classifier does incorrectly label several texts during the testing, some of which are shown in \tableref{tbl:incorrect_predictions}. There might be several reasons which could have caused the mislabelling. It might be that the TF-IDF vector representation of the text is inadequate to capture the meaning of the text or it might be simply because the classifier is not complex enough to make the prediction based on the features used.
+But the classifier does incorrectly label several texts during the testing, some of which are shown in \tableref{tbl:incorrect_predictions}. The model seems to have problem identifying a non-critical news when the text contains stems which are common found in critical news. It could indicate that the TF-IDF vector representation of the text is inadequate to capture the meaning behind it. Similarly, the mislabelling of the critical news articles could have been because of the inability of the classifier to interpret the meaning and implications of the text.
 
 \begin{table}
 \begin{center}
@@ -112,23 +115,24 @@ But the classifier does incorrectly label several texts during the testing, some
 \toprule 
 Text&Label&Predicted\\
 \midrule 
-RT MPSHammFul: FH schools officers carried out a weapons sweep in Little Wormwood Scrubs glad to say nothing found StopKnifeCrime OpSce&Critical&Non-critical\\
+RT MPSNorthEndRY: We've just found this sword in a bush in comptonplace whilst completing a weapons sweep in partnership with MPSErith…&Critical&Non-critical\\
 \hline
-We were dealing with a suspicious vehicle in Hyde Park Corner from 2100hrs. A controlled explosion was carried out at around 2140hrs and the incident was stood down - road closures now lifted. Thanks to the public for cooperation.&Critical&Non-Critical\\
+Police will remain on the scene at Flinders Street well into the evening and tomorrow morning. We ask the community to continue to avoid the highlighted area. We will provide an update once the crime scene has been cleared. &Critical&Non-Critical\\
 \hline
-MISSING:  Rebecca A Amoureux, (goes by Anna) 22, since 11/1 from downtown. Possibly in crisis, does not know area.  Call 911 if located. https://t.co/Mux4K4VcgP&Critical&Non-Critical\\
+Police Officer Glenn Doss, Jr. of the detroitpolice lost his life protecting the residents of Detriot. NeverForget &Critical&Non-Critical\\
 \hline
-Onthisday we remember PC Stephen Tibble QPM, who was fatally shot whilst off duty after trying to arrest an armed suspect being pursued by police in 1975. He was posthumously awarded the Queen’s Medal for Gallantry&Non-Critical&Critical\\
+NeighborhoodPolicing is NYPDprotecting NYPDconnecting: Our NYPD43Pct officers visited Stevenson HS to share information with Bronx students on healthy dating relationships as part of TeenDatingViolenceAwarenessMonth.&Non-Critical&Critical\\
 \hline
-Three beachgoers had a lucky escape after two patrolling policemen rescued them from the surf near Lorne on Friday&Non-Critical&Critical\\
+Victoria Police and VicRoads were on site last night in St Kilda to ensure the safety of motorists and onlookers as the Loy Yang generator (which weighs 650 tonnes and is as large as a jumbo jet!) made its way very slowly to the Melbourne docks. Go team! https://t.co/Ir6qBFlNab
+&Non-Critical&Critical\\
 \hline
-Reminder, National Drug Take Back Day is tomorrow.  Good opportunity to rid your house of unwanted/unused/expired prescription meds. https://t.co/B3La5kpz1z&Non-Critical&Critical\\
+Robert was 23 years old when he got behind the wheel intoxicated, struck two pedestrians and killed one of them. He now shares his personal experience as part of the Cool Heads road safety program. Read more in the Police Life Summer edition → https://t.co/HoBotyjygm https://t.co/3eu9az9GNg&Non-Critical&Critical\\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
 
-In a similar manner, the class assignment predicted by the Neural Network model on some recent news articles is shown in \tableref{tbl:real_prediction}. The performance of the model in the new articles is quite similar to the performance in the test set. The articles which clearly contain important features like "beat", "death", "shoot", "police", etc are labelled as critical and articles which clearly do not contain those kinds of features are labelled as non-critical.
+In a similar manner, the class assignment predicted by the Neural Network model on some recent news articles is shown in \tableref{tbl:real_prediction}. The table shows that the model perform fairly good in the recent news articles. The articles which clearly contain important stems like "beat", "death", "shoot", "police", etc are correctly labelled as critical and articles which clearly do not contain those kinds of features are labelled as non-critical.
 
 \begin{table}
 \begin{center}
@@ -153,3 +157,6 @@ CHICAGO (AP) - Following years of reformulating at McDonald's, the company annou
 \end{tabular}
 \end{center}
 \end{table}
+
+\section{Summary}
+This chapter analyzes the performance of various classifiers: Logistic Regression, Random Forests, SVM, and Neural Network model on the critical news dataset. Even though the dataset was somewhat noisy, the models performed fairly good. On average, the models were able to achieve an accuracy greater than 90 percent with Neural Network model achieving the highest accuracy of 93.654 percent.

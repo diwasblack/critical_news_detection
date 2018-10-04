@@ -2,17 +2,17 @@
 
 % Motivation
 \section{Motivation}\label{intro:motivation}
+\cite{WinNT}
+Based on a recent study, 68 percent of US adults said they at least occasionally get news on social media; however, 57 percent of those people expect the news to be largely inaccurate \cite{matsa2018news}. These facts portray a significant problem with the social media platforms: verifying the truthfulness of the articles posted on them. Recently, the term "fake news" has soared in popularity across various social media, news industry, and research papers alike. Jaster et al. define the term as \cite{gelfert2018fake}
 
-Based on a recent study, 68 percent of US adults said they at least occasionally get news on social media; however, 57 percent of those people expect the news to be largely inaccurate \cite{matsa2018news}. These facts portray a significant problem with the social media platforms: verifying the truthfulness of the articles posted on them. Recently, the term "fake news" has soared in popularity across various social media, news industry, and research papers alike. Jaster et al. define the term as \cite{jasterfake}
-
-\enquote{Fake news is either false or misleading information that is propagated with either the intention to deceive or an utter disregard for the truth.}
+\enquote{Fake news is the deliberate presentation of (typically) false or misleading claims as news, where the claims are misleading by design.}
 
 \noindent
 A study has shown that fake news viewing impacts political attitudes, enhances the feelings of inefficacy, alienation, and cynicism toward politicians \cite{balmas2014fake}. In a similar manner, others have pointed out that fake news could impact the ability of people to accept truthful news by confusing them with false stories \footnote{\url{https://www.nytimes.com/2016/11/28/opinion/fake-news-and-the-internet-shell-game.html?\%20r=0}}.
 
-During the United States presidential election of 2016, fake news propagated far more rapidly on Facebook than did real news from mainstream media\cite{silverman2016analysis}. It was also reported that 75 percent of people who saw the fake news stories at that time said that they believed them\cite{silverman2016most}. Combining the previous facts with the fact that the most popular fake news stories were in favor of Donald Trump over Hillary Clinton\cite{silverman2016analysis}, a number of commentators proposed that the outcome of the election might have been different were it not for the influence of fake news \cite{parkinson2016click, read2016donald, dewey2016facebook}
+During the United States presidential election of 2016, fake news propagated far more rapidly on Facebook than did real news from mainstream media\cite{silverman2016analysis}. It was also reported that 75 percent of people who saw the fake news stories at that time said that they believed them\cite{silverman2016most}. There were both fake news for both candidates despite one candidate had more fake news in favor than the other candidate \cite{silverman2016analysis}. A number of commentators proposed that the fake news influenced the election  \cite{parkinson2016click, read2016donald, dewey2016facebook}
 
-In order to control the effects that fake news might have, it is essential to develop systems that can identify fake news as early as possible. However, automatic detection of fake news poses several problems. Firstly, in order to achieve its purpose of misleading readers, a fake news story will try its best to appear genuine. Therefore, based solely on content, it is difficult to classify the story as fake. Secondly, using auxiliary information such as knowledge base and social engagements actually leads to another problem of verifying the quality of the data itself\cite{shu2017fake}. It is also impractical for the reviewers to analyze every single article, statement or message that is found in social media and decide whether it is a fake news. Due to these reasons, a number of researchers have even proposed that a better compromise could be a semi-automated system where an algorithm would augment a human reviewer to identify fake news \cite{conroy2015automatic, chen2015news, wiegand2016veracity}.
+To control the effects that fake news might have, it is essential to develop systems that can identify fake news as early as possible. However, automatic detection of fake news poses several problems. Firstly, in order to achieve its purpose of misleading readers, a fake news story will try its best to appear genuine. Therefore, based solely on content, it is difficult to classify the story as fake. Secondly, using auxiliary information such as knowledge base and social engagements actually leads to another problem of verifying the quality of the data itself\cite{shu2017fake}. It is also impractical for the reviewers to analyze every single article, statement or message that is found in social media and decide whether it is a fake news. Due to these reasons, a number of researchers have even proposed that a better compromise could be a semi-automated system where an algorithm would augment a human reviewer to identify fake news \cite{conroy2015automatic, chen2015news, wiegand2016veracity}.
 
 One key observation that can be fundamental in combating fake news is that we do not need to analyze every single article, message or statement. There are articles that describe topics such as infotainment, personal news, beauty tips, etc. which might not have severe impact even if they were fake. Such articles can be excluded from the verification step or can be verified as needed. For example, consider the following statement: "I watched the Black Panther movie in the weekend. Fantastic effects!". Detecting whether the person may have watched the movie or not, or whether the movie has fantastic effects may not be considered as important. However, a statement such as "There has been a shooting at the mall" needs to be verified.
 To summarize, we could say that there are somewhat important articles that needs to be verified and there are others which may be excluded from the verification step.
@@ -23,7 +23,7 @@ The concept of separating news into somewhat important news which needs to be ve
 
 \enquote{Hard news is defined as reports about politics, public administration, the economy, science, technology and related topics. Soft news is defined as reports about celebrities, human interest, sport and other entertainment-centred stories.}
 
-The categorization of text into hard news and soft news is inadequate for the purpose of identifying important article from unimportant ones because there might be articles in hard news which are not that important and soft news might also have articles which are important. So a new term "critical news" is introduced which is defined as follows,
+The categorization of text into hard news and soft news is inadequate for the purpose of identifying important article from unimportant ones because there might be articles in hard news which are not that important and soft news might also have articles which are important. So a new term "critical news" is introduced which is defined as follows:
 
 \enquote{A text is labeled as critical if it affects a significant number of people, changes the routines of daily life, and needs verification on the information presented.}
 
@@ -32,9 +32,9 @@ Any article whose content affects significant number of people, changes their ro
 Many research studies aim at detecting fake news. Although there already exist datasets for studying fake news, there is no dataset available for detection critical news as mentioned in this thesis. To study this problem, we work on the following problems:
 
 \begin{enumerate}
-    \item \textit{Building a new dataset for critical news detection.}
-    \item \textit{Studying existing fake news detection methods for detecting critical news.}
-    \item \textit{Selecting features from fake news detection methods and evaluating a number of classifier models for critical news detection.}
+    \item Building a new dataset for critical news detection.
+    \item Studying existing fake news detection methods for detecting critical news.
+    \item Selecting features from fake news detection methods and evaluating a number of classifier models for critical news detection.
 \end{enumerate}
 
 Especially, building the dataset for critical news detection was complex. Finding ground-truth or reference messages for labeling was important for this study. Once these messages are labeled based on the definition of critical news, we built a number of classifiers. Therefore, the eventual goal is to be able to construct a binary classifier that is able to separate critical news from non critical news based on its content. Once these news statements are detected as critical, they can be further evaluated to determine whether they are fake or not.
