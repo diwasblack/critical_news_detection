@@ -15,12 +15,12 @@ The dataset visualization indicates that the data does not have significant prob
 \end{figure}
 
 \section{Classification Performance}
-The performance of the classifiers for five separate runs on the significant news dataset is shown in \tableref{tbl:critical_news_performance} and the average performance of those runs is shown in \tableref{tbl:average_performance}. The results show that on average, the models achieve a reasonably high performance which are comparable to one another; furthermore, it also shows that the neural network model performs slightly better than rest of the models.
+The performance of the classifiers for five separate runs on the significant news dataset is shown in \tableref{tbl:classifiers_performance} and the average performance of those runs is shown in \tableref{tbl:average_performance}. The results show that on average, the models achieve a reasonably high performance which are comparable to one another; furthermore, it also shows that the neural network model performs slightly better than rest of the models.
 
 \begin{table}
 \begin{center}
 \caption{Performance of classifiers on significant news dataset}
-\label{tbl:critical_news_performance}
+\label{tbl:classifiers_performance}
 \begin{tabular}{lccccr}
 \toprule 
 Model&Iteration&Accuracy&Precison&Recall&Fscore\\
@@ -59,7 +59,7 @@ Model&Iteration&Accuracy&Precison&Recall&Fscore\\
 
 \begin{table}
 \begin{center}
-\caption{Average performance of classifiers on critical news dataset}
+\caption{Average performance of classifiers on significant news dataset}
 \label{tbl:average_performance}
 \begin{tabular}{lcccr}
 \toprule 
@@ -116,7 +116,7 @@ But the classifier does incorrectly label several texts during the testing, some
 \toprule 
 Text&Label&Predicted\\
 \midrule 
-RT MPSNorthEndRY: We've just found this sword in a bush in comptonplace whilst completing a weapons sweep in partnership with MPSErith…&Significant&Non-critical\\
+RT MPSNorthEndRY: We've just found this sword in a bush in comptonplace whilst completing a weapons sweep in partnership with MPSErith…&Significant&Non-Significant\\
 \hline
 Police will remain on the scene at Flinders Street well into the evening and tomorrow morning. We ask the community to continue to avoid the highlighted area. We will provide an update once the crime scene has been cleared. &Significant&Non-Significant\\
 \hline

@@ -269,7 +269,7 @@ A logistic regression is a binary classification algorithm that tries to constru
 where $x$ is the input vector and $\theta$ is the vector containing the parameters of the decision boundary. 
 
 \subsubsection{Support Vector Machine}
-SVMs non-linearly map the input vectors to a very high dimensional feature space and tries to construct a linear decision surface in the new feature space \cite{cortes1995support}. The SVM could also use the kernel trick to construct a non-linear decision surface in the new feature space \cite{cortes1995support}. For the critical news detection task, the radial basis function shown in \eqref{eq:rbf_kernel} was used as a kernel:
+SVMs non-linearly map the input vectors to a very high dimensional feature space and tries to construct a linear decision surface in the new feature space \cite{cortes1995support}. The SVM could also use the kernel trick to construct a non-linear decision surface in the new feature space \cite{cortes1995support}. For the significant news detection task, the radial basis function shown in \eqref{eq:rbf_kernel} was used as a kernel:
 
 \begin{equation}
     \label{eq:rbf_kernel}
@@ -285,7 +285,7 @@ The random forests\cite{breiman2001random} is an ensemble method for decision tr
 \subsubsection{Neural Network}
 Neural networks are a networked learning model capable of performing both classification and regression tasks. The model hierarchically constructs a deeper representation of the given input and tries to perform the prediction task on the representation constructed. 
 
-The Neural Network model for the critical news detection is a three layered network with a hidden layer, an input, and an output layer.
+The Neural Network model for the significant news detection is a three layered network with a hidden layer, an input, and an output layer.
 
 \subsection{Training and Testing}
 %At first, the dataset is randomly separated into training set and test set using a 80-20 split. The models are trained using the training set whereas the test set remains unused during the training. 
