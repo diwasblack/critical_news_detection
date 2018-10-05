@@ -2,7 +2,6 @@
 
 % Motivation
 \section{Motivation}\label{intro:motivation}
-\cite{WinNT}
 Based on a recent study, 68 percent of US adults said they at least occasionally get news on social media; however, 57 percent of those people expect the news to be largely inaccurate \cite{matsa2018news}. These facts portray a significant problem with the social media platforms: verifying the truthfulness of the articles posted on them. Recently, the term "fake news" has soared in popularity across various social media, news industry, and research papers alike. Jaster et al. define the term as \cite{gelfert2018fake}
 
 \enquote{Fake news is the deliberate presentation of (typically) false or misleading claims as news, where the claims are misleading by design.}
@@ -23,22 +22,21 @@ The concept of separating news into somewhat important news which needs to be ve
 
 \enquote{Hard news is defined as reports about politics, public administration, the economy, science, technology and related topics. Soft news is defined as reports about celebrities, human interest, sport and other entertainment-centred stories.}
 
-The categorization of text into hard news and soft news is inadequate for the purpose of identifying important article from unimportant ones because there might be articles in hard news which are not that important and soft news might also have articles which are important. So a new term "critical news" is introduced which is defined as follows:
+The categorization of text into hard news and soft news is inadequate for the purpose of identifying important article from unimportant ones because there might be articles in hard news which are not that important and soft news might also have articles which are important. So a new term "significant news" is introduced which is defined as follows:
 
-\enquote{A text is labeled as critical if it affects a significant number of people, changes the routines of daily life, and needs verification on the information presented.}
+\enquote{A text is labeled as significant if it affects a large number of people, changes the routines of daily life, and needs verification on the information presented.}
 
-Any article whose content affects significant number of people, changes their routines of daily life, and needs to be verified could be labelled as critical news and all other articles which does not meet those criteria should be labelled as a non critical news. 
+Any article whose content affects large number of people, changes their routines of daily life, and needs to be verified could be labelled as significant news and all other articles which does not meet those criteria should be labelled as a non-significant news. 
 
 Many research studies aim at detecting fake news. Although there already exist datasets for studying fake news, there is no dataset available for detection critical news as mentioned in this thesis. To study this problem, we work on the following problems:
 
 \begin{enumerate}
-    \item Building a new dataset for critical news detection.
-    \item Studying existing fake news detection methods for detecting critical news.
-    \item Selecting features from fake news detection methods and evaluating a number of classifier models for critical news detection.
+    \item Building a new dataset for significant news detection.
+    \item Studying existing fake news detection methods for detecting significant news.
+    \item Selecting features from fake news detection methods and evaluating a number of classifier models for significant news detection.
 \end{enumerate}
 
-Especially, building the dataset for critical news detection was complex. Finding ground-truth or reference messages for labeling was important for this study. Once these messages are labeled based on the definition of critical news, we built a number of classifiers. Therefore, the eventual goal is to be able to construct a binary classifier that is able to separate critical news from non critical news based on its content. Once these news statements are detected as critical, they can be further evaluated to determine whether they are fake or not.
-
+Especially, building the dataset for significant news detection was complex. Finding ground-truth or reference messages for labeling was important for this study. Once these messages are labeled based on the definition of significant news, we built a number of classifiers. Therefore, the eventual goal is to be able to construct a binary classifier that is able to separate significant news from non-significant news based on its content. Once these news statements are detected as significant, they can be further evaluated to determine whether they are fake or not.
 
 % Thesis Organization
 \section{Thesis Organization} \label{intro:organization}

@@ -1,5 +1,5 @@
 \chapter{Method} \label{method}
-The first step of constructing a classifier for critical news is to acquire a dataset containing the labels for critical and non-critical news. Once the dataset is obtained, the texts are then processed to obtain the unigram terms. The IDF values for the terms are then calculated by using the equation \eqref{eq:idf_equation}, which are then used to compute the TF-IDF vectors for the text.
+The first step of constructing a classifier for significant news is to acquire a dataset containing the labels for significant and non-significant news. Once the dataset is obtained, the texts are then processed to obtain the unigram terms. The IDF values for the terms are then calculated by using the Equation \eqref{eq:idf_equation}, which are then used to compute the TF-IDF vectors for the text.
 
 The vectors for documents are then randomly divided into a training set and a test set. The training set is used to train the models and optimize the hyperparamters by using a cross validation technique. And, the test set is used to evaluate the performance of the best performing models from the cross validation step. The steps that were followed in order to train, validate, and test the classifier models are shown in \figureref{fig:training}.
 
@@ -9,7 +9,7 @@ The vectors for documents are then randomly divided into a training set and a te
     \label{fig:training}
 \end{figure}
 
-Once the models are trained, they can be used to predict the class assignment for new articles. The first step would be convert the piece of text to a vector by using the TF-IDF algorithm. Then, the vector can be used with a trained classifier model to predict the class label. The steps that should used in order to perform the classification is summarized in \figureref{fig:prediction}.
+Once the models are trained, they can be used to predict the class assignment for new articles. The first step would be convert the  text to a vector by using the TF-IDF algorithm. Then, the vector can be used with a trained classifier model to predict the class label. The steps of the classification are summarized in \figureref{fig:prediction}.
 
 \begin{figure}[h]
     \cfig{3}{prediction.png}{3}
@@ -18,10 +18,17 @@ Once the models are trained, they can be used to predict the class assignment fo
 \end{figure}
 
 \section{Dataset}
-As per the definition, there are certain characteristics that a piece of text should satisfy in order to be labeled as critical news. Due to this reason, a dataset that matches categorization of text into critical and non-critical news does not exist. This prompted the creation of a new dataset for critical news detection.
+We have provided a new definition of significant news for our purpose. Due to this reason, a dataset that matches categorization of text into significant and non-significant news does not exist. This prompted the creation of a new dataset for significant news detection. 
 
 \subsection{Data Acquisition}
-The unlabelled dataset was obtained from the posts of Twitter users shown in \tableref{tbl:twitter_users}. The posts were obtained with the help of python-oauth2\footnote{\url{https://github.com/joestump/python-oauth2}} library using the official Twitter API\footnote{\url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html}}.
+Rather than checking messages of general users to create the dataset, we focused on official law enforcement accounts. Those accounts would at least have some significant news besides some non-significant news.
+The initial unlabelled dataset was obtained from the posts of Twitter users shown in \tableref{tbl:twitter_users}, with the help of python-oauth2\footnote{\url{https://github.com/joestump/python-oauth2}} library and official Twitter API\footnote{\url{https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html}}. The data was then stored locally in an SQLite\footnote{\url{https://www.sqlite.org/index.html}} database with the help of peewee\footnote{\url{http://docs.peewee-orm.com/en/latest/}} python library. A sample of data obtained from Twitter is as follows,
+
+\begin{verbatim}
+Watch: @PIX11News  gives an inside look at our #NeighborhoodPolicing
+meetings on how they are connecting local NYPD police officers with
+the community. https://t.co/D6K5DWxWWm https://t.co/NM0AWpPgja
+\end{verbatim}
 
 \begin{table}
     \centering
@@ -40,27 +47,21 @@ The unlabelled dataset was obtained from the posts of Twitter users shown in \ta
     \end{tabular}
 \end{table}
 
-The data was then stored locally in an sqlite\footnote{\url{https://www.sqlite.org/index.html}} database with the help of peewee\footnote{\url{http://docs.peewee-orm.com/en/latest/}} python library. A sample of data obtained from Twitter is as follows,
 
-\begin{verbatim}
-Watch: @PIX11News  gives an inside look at our #NeighborhoodPolicing
-meetings on how they are connecting local NYPD police officers with
-the community. https://t.co/D6K5DWxWWm https://t.co/NM0AWpPgja
-\end{verbatim}
 
 \subsection{Labelling}
-Each tweet was then manually labeled as either critical news or non-critical news based on the pre-conditions. The statistics of the new dataset constructed is shown in  \tableref{tbl:dataset_statistics} and some examples of the labels and their explanation are given below.
+Each article was then manually labeled as either significant news or non-significant news based on the pre-conditions. The statistics of the new dataset constructed is shown in  \tableref{tbl:dataset_statistics} and some examples of the labels and their explanation are given below.
 
 \begin{table}[h]
 \begin{center}
-\caption{Critical news dataset statistics}
+\caption{Significant news dataset statistics}
 \label{tbl:dataset_statistics}
 \begin{tabular}{lr}
 \toprule 
 Label&Number of samples\\
 \midrule 
-Critical&1548\\
-Non-critical&595\\
+Significant&1548\\
+Non-significant&595\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -69,31 +70,31 @@ Non-critical&595\\
 \subsubsection{Labelling for Sample 1}
 \textbf{Text:}
 \textit{Great news!! Missing 20-year-old Melissa Wilson has been located safe and well. Thank you for the shares!}\par
-\textbf{Label:} Critical\par
-\textbf{Explanation:} A number of people might still be looking for the missing person either actively or inactively. Any updates to the whereabouts of the person would be an important piece of information for those people. The text mentions that the missing person has been found and is safe and well. If the missing person has in fact been located, the people searching for the person could stop searching for the person and can continue with their other tasks. Since the content present affects a large number of people, changes their routines of their daily life, and needs to be verified, it would be labelled as critical.
+\textbf{Label:} Significant\par
+\textbf{Explanation:} A number of people might still be looking for the missing person either actively or inactively. Any updates to the whereabouts of the person would be an important piece of information for those people. The text mentions that the missing person has been found and is safe and well. If the missing person has in fact been located, the people searching for the person could stop searching for the person and can continue with their other tasks. Since the content may affect a large number of people, changes their routines of their daily life, and needs to be verified, it would be labelled as significant.
 
 \subsubsection{Labelling for Sample 2}
 \textbf{Text:}
 \textit{Detectives investigating the murder of Kwabena Nelson in Tottenham have made an arrest Haringey.}\par
-\textbf{Label:} Critical\par
-\textbf{Explanation:} A murder of a person induces fear in a number of people who might be living in the same location where the crime is supposed to have occurred. The people living in the area might avoid walking alone in the neighbourhood at night, cancel their plans of moving in an apartment near the area or even move out of the area after knowing about it. Knowing that the detectives made an arrest on the crime would be a very important piece information that might bring them some peace of mind. As the content affect a large number of people, changes the routines of their daily life and needs to be verified, it would be labelled as critical.
+\textbf{Label:} Significant\par
+\textbf{Explanation:} A murder of a person induces fear in a number of people who might be living in the same location where the crime is supposed to have occurred. The people living in the area might avoid walking alone in the neighbourhood at night, cancel their plans of moving in an apartment near the area or even move out of the area after knowing about it. Knowing that the detectives made an arrest on the crime would be a very important piece information that might bring them some peace of mind. As the content affect a large number of people, changes the routines of their daily life and needs to be verified, it would be labelled as significant.
 
 \subsubsection{Labelling for Sample 3}
 \textbf{Text:}
 \textit{Great example of NYPDconnecting in the Bronx. NYPD49Pct Neighbor- hoodPolicing officers worked with the community to address a garbage condition on a resident block in their neighborhood.}\par
-\textbf{Label:} Non-Critical\par
-\textbf{Explanation:} The number of people the text could concern would be physically limited to the people living around that neighborhood. And, even for those people, addressing a garbage condition would be a minor concern. The information that the problem was resolved could hardly change their behavior. For most of them, their life would continue the same way even after obtaining the information. As the number of people that the text affects is small and could hardly change their daily routine, the text should be labelled as non-critical.
+\textbf{Label:} Non-Significant\par
+\textbf{Explanation:} The number of people the text could concern would be physically limited to the people living around that neighborhood. And, even for those people, addressing a garbage condition would be a minor concern. The information that the problem was resolved could hardly change their behavior. For most of them, their life would continue the same way even after knowing about it. As the number of people that the text affects is small and could hardly change their daily routine, the text should be labelled as non-significant.
 
 \subsubsection{Labelling for Sample 4}
 \textbf{Text:}
 \textit{It was over before it began for this 18-year-old who lost her licence after only two hours.}\par
-\textbf{Label:} Non-Critical\par
-\textbf{Explanation:} The information in the content is of a personal nature which most of the time is essential only for immediate family members and friends. And, even for those people, the information that the person lost their licence could hardly be a matter of great importance as long as the person is safe. Since the content does not describe any unfortunate events, the only new information would be that the person lost their licence. For most of the immediate family and friends their life would continue the same way as before even after reading about the news. Since it fails to affect the daily routines of a significant number of people it should be labelled as non-critical.
+\textbf{Label:} Non-Significant\par
+\textbf{Explanation:} The information in the content is of a personal nature which most of the time is essential only for immediate family members and friends. And, even for those people, the information that the person lost their licence could hardly be a matter of great importance as long as the person is safe. Since the content does not describe any unfortunate events, the only new information would be that the person lost their licence. For most of the immediate family and friends their life would continue the same way as before even after reading about the news. Since it fails to affect the daily routines of a large number of people it should be labelled as non-significant.
 
 % Text Processing
 \section{Feature Generation}
 \subsection{Tokenization}
-The tokenization is done with the help of NLTK\cite{loper2002nltk} python library which discards everything except English alphabets.  Tokenization done in this way will also discard the numeric characters such as "1", "2", "3", etc from the text due to which the articles could loses the temporal information in the content. The tokenizer first removes all of the punctuation symbols from a piece of text and then separates the words by using the white space characters. Furthermore, a regular expression was used to remove the URLs from the text. An example of the output generated by the tokenizer is shown in \tableref{tbl:tokenization_sample}
+The tokenization is done with the help of NLTK\cite{loper2002nltk} python library which discards everything except English alphabets.  Tokenization done in this way will also discard the numeric characters such as "1", "2", "3", etc.  The tokenizer first removes all of the punctuation symbols from the text and then separates the words by using the white space characters. Furthermore, a regular expression was used to remove the URLs from the text. An example of the output generated by the tokenizer is shown in \tableref{tbl:tokenization_sample}
 
 \begin{table}[h]
 \begin{center}
@@ -151,7 +152,7 @@ won&won't&wouldn&wouldn't\\
 \end{center}
 \end{table}
 
-In addition to the stop words found in the NLTK library, the words shown in \tableref{tbl:extra_stop_words} were also added to the stop word list. The set of words such as "nypdpsa", "npyd", "nypdct", "seattledot", etc were added to the list to eliminate the bias that those words might introduce during the training. The other words that were added to the stop word list are frequently occurring words such as such as "one", "two", "Sunday", "Monday", "January", "February" whose presence in the text does not affect whether the text is critical or non-critical.
+In addition to the stop words found in the NLTK library, the words shown in \tableref{tbl:extra_stop_words} were also added to the stop word list. The set of words such as "nypdpsa", "npyd", "nypdct", "seattledot", etc were added to the list to eliminate the bias that those words might introduce during the training. The other words that were added to the stop word list are frequently occurring words such as such as "one", "two", "Sunday", "Monday", "January", "February" whose presence in the text most of the time does not affect whether the text is significant or non-significant. Nevertheless, there could be some cases where temporal context might be important and some of these words could affect classification.
 
 \begin{table}
 \begin{center}
@@ -203,9 +204,9 @@ The Porter's algorithm\cite{porter1980algorithm} is a popular stemming algorithm
 \end{table}
 
 \subsection{IDF Calculation}
-The IDF values for the stems are calculated using the equation \eqref{eq:idf_equation}, which are then used to sort the stems in descending order of IDF values. The sorted list for the top 50 stems with their IDF value is shown in \tableref{tbl:idf_stems}. The table shows that the IDF value of stems such as "thief", "alcohol", "tragedi", "food", "trade", "citizen", "civilian", etc is pretty high. The presence of such stems in a text could be a strong indication of whether the text is critical or non-critical.
+The IDF values for the stems are calculated using Equation \eqref{eq:idf_equation}, which are then used to sort the stems in descending order of IDF values. The sorted list for the top 50 stems with their IDF values is shown in \tableref{tbl:idf_stems}. The table shows that the IDF value of stems such as "thief", "alcohol", "tragedi", "food", "trade", "citizen", "civilian", etc is pretty high. The presence of such stems in a text could be a strong indication of whether the text is significant or non-sginificant.
 
-Since it might not be practical to use every single stem as a feature for the classifier, the number of stems should somehow be reduced. The simplest way to accomplish that task is to select the top $n$ stems for the sorted stem list. For this research, the top 1000 stems were used from the sorted stem list. The complete list of the selected stems is shown in \appendixref{1000_stems}. The list shows that the selected stems does include important stems like "murder", "robberi", "shoot", "burglari", "terror", "death", "victim" which is a desirable outcome.
+Since it might not be practical to use every single stem as a feature for the classifier, the number of stems should somehow be reduced. The simplest way to accomplish that task is to select the top $n$ stems for the sorted stem list. For this research, the top 1000 stems were used from the sorted stem list. The complete list of the selected stems is provided in \appendixref{1000_stems}. The list shows that the selected stems does include important stems like "murder", "robberi", "shoot", "burglari", "terror", "death", "victim" which is a desirable outcome.
 
 \begin{table}
 \begin{center}
@@ -240,7 +241,7 @@ true&7.1&thief&7.1&&\\
 % These stems that were selected are precisely the features that the classifier would use to assign the class to a text.
 
 \subsection{TF-IDF}
-Once the IDF values for the terms have been calculated, the TF-IDF algorithm can be used to convert the text into a vector by multiplying the TF of the term with its IDF value as shown in equation \eqref{eq:tf_idf_equation}. The number of dimensions that the TF-IDF vector would have is precisely the number of stems selected as the vocabulary during the IDF calculation.
+Once the IDF values for the terms have been calculated, the TF-IDF algorithm can be used to convert the text into a vector by multiplying the TF of the term with its IDF value as shown in Equation \eqref{eq:tf_idf_equation}. The number of dimensions that the TF-IDF vector would have is precisely the number of stems selected as the vocabulary during the IDF calculation.
 
 The vector $v$ obtained is then normalized using the $L^2$ norm as follows,
 \begin{equation}
@@ -251,28 +252,31 @@ The TF-IDF algorithm was implemented with the help of scikit-learn \cite{scikit-
 
 % Classfication
 \section{Classification}\label{classification}
-Several classification algorithms can be used to classify the text such as Rule-Based Classifiers, Neural Networks, Logistic Regression, Random Forest, Decision Trees, K-Nearest Neighbor, SVM\cite{cortes1995support}, etc. 
-% However, it has been theoretically and empirically shown that SVMs are very well suited for the text categorization problem\cite{joachims1998text}.
-The classifier models were implemented using the scikit-learn python library.
+Several classification algorithms can be used to classify the text such as rule-based classifiers, neural networks, logistic regression, random forest, decision trees, k-nearest neighbor, SVM\cite{cortes1995support}, etc. 
+% However, it has been theoretically and empirically shown that SVMs are very well suited for the text categorization problem\cite{joachims1998text}. 
+For this thesis, classifiers listed below were implemented using the scikit-learn python library.
 
 \subsection{Models}
 \subsubsection{Logistic Regression}
-A logistic regression is a binary classification algorithm that tries to construct a decision boundary as one given in \eqref{eq:regularized_logistic_regression} by minimizing a regularized cost for misclassification using a SGD algorithm.
+A logistic regression is a binary classification algorithm that tries to construct a decision boundary as one given in Equation \eqref{eq:regularized_logistic_regression} by minimizing a regularized cost for misclassification using a SGD algorithm.
 
 \begin{equation}
     \label{eq:regularized_logistic_regression}
     h_{\theta}(x) = \frac{1}{1 + {e}^{-{\theta}^{t}. x}}
 \end{equation}
 
+\noindent
 where $x$ is the input vector and $\theta$ is the vector containing the parameters of the decision boundary. 
 
 \subsubsection{Support Vector Machine}
-Support Vector Machines non-linearly map the input vectors to a very high dimensional feature space and tries to construct a linear decision surface in the new feature space \cite{cortes1995support}. The SVM could also use the kernel trick to construct a non-linear decision surface in the new feature space \cite{cortes1995support}. For the critical news detection task, the Radial Basis Function shown in \eqref{eq:rbf_kernel} was used a kernel.
+SVMs non-linearly map the input vectors to a very high dimensional feature space and tries to construct a linear decision surface in the new feature space \cite{cortes1995support}. The SVM could also use the kernel trick to construct a non-linear decision surface in the new feature space \cite{cortes1995support}. For the critical news detection task, the radial basis function shown in \eqref{eq:rbf_kernel} was used as a kernel:
 
 \begin{equation}
     \label{eq:rbf_kernel}
     K(x, x^{'}) = exp(- \frac{{\lVert x - x^{'} \rVert}^{2}}{2 \sigma^{2}})
 \end{equation}
+
+\noindent
 Where, $x$ and $x^{'}$ are the vector inputs, $d$ is the degree of the polynomial to use, and $\sigma$ is the smoothness parameter.
 
 \subsubsection{Random Forests}
@@ -284,11 +288,11 @@ Neural networks are a networked learning model capable of performing both classi
 The Neural Network model for the critical news detection is a three layered network with a hidden layer, an input, and an output layer.
 
 \subsection{Training and Testing}
-At first, the dataset is randomly separated into training set and test set using a 80-20 split. The models are trained using the training set whereas the test set remains unused during the training. 
+%At first, the dataset is randomly separated into training set and test set using a 80-20 split. The models are trained using the training set whereas the test set remains unused during the training. 
 
-For each classifier, the 5 fold cross-validation technique was used to evaluate the performance of the model using a random set of hyperparameters. The set of hyperparamters that achieved the highest performance during the cross-validation were selected. The models were then trained on the whole training set using the hyperparameters selected from the cross-validation step.
+For each classifier, the 5 fold cross-validation technique was used to evaluate the performance of the model using a random set of hyperparameters. The set of hyperparameters that achieved the highest performance during the cross-validation were selected, and the models were then trained on the whole training set using the selected hyperparameters.
 
 In order to evaluate the performance, the trained models were used to predict the class assignment for news articles in the test set. 
 
 \section{Summary}
-In summary, this chapter describes the steps that were used to construct and evaluate the classifier models. The chapter explains the process that was used to collect, analyze, and store the data. It then describes the algorithms and the libraries that were used to obtain features from a piece of text, which is followed by the methodology that was used to train and test the classifiers.
+In summary, this chapter describes the steps that were used to construct and evaluate the classifier models. The chapter explains the process that was used to collect, analyze, and store the data. It then describes the algorithms and the libraries that were used to obtain features from a text, which is followed by the methodology that was used to train and test the classifiers.
