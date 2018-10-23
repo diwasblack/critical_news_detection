@@ -7,9 +7,9 @@ Based on a recent study, 68 percent of US adults said they at least occasionally
 \enquote{Fake news is the deliberate presentation of (typically) false or misleading claims as news, where the claims are misleading by design.}
 
 \noindent
-A study has shown that fake news viewing impacts political attitudes, enhances the feelings of inefficacy, alienation, and cynicism toward politicians \cite{balmas2014fake}. In a similar manner, others have pointed out that fake news could impact the ability of people to accept truthful news by confusing them with false stories \footnote{\url{https://www.nytimes.com/2016/11/28/opinion/fake-news-and-the-internet-shell-game.html?\%20r=0}}.
+A study has shown that fake news viewing impacts political attitudes, enhances the feelings of inefficacy, alienation, and cynicism toward politicians \cite{balmas2014fake}. And, others have pointed out that fake news could impact the ability of people to accept truthful news by confusing them with false stories \footnote{\url{https://www.nytimes.com/2016/11/28/opinion/fake-news-and-the-internet-shell-game.html?\%20r=0}}.
 
-During the United States presidential election of 2016, fake news propagated far more rapidly on Facebook than did real news from mainstream media\cite{silverman2016analysis}. It was also reported that 75 percent of people who saw the fake news stories at that time said that they believed them\cite{silverman2016most}. There were both fake news for both candidates despite one candidate had more fake news in favor than the other candidate \cite{silverman2016analysis}. A number of commentators proposed that the fake news influenced the election  \cite{parkinson2016click, read2016donald, dewey2016facebook}
+During the United States presidential election of 2016, fake news propagated far more rapidly on Facebook than did real news from mainstream media\cite{silverman2016analysis}, and it was also reported that 75 percent of people who saw the fake news stories at that time said that they believed them\cite{silverman2016most}. There were fake news for both candidates despite one candidate had more fake news in favor than the other candidate \cite{silverman2016analysis}. This led to a number of commentators proposing that the fake news influenced the election  \cite{parkinson2016click, read2016donald, dewey2016facebook}
 
 To control the effects that fake news might have, it is essential to develop systems that can identify fake news as early as possible. However, automatic detection of fake news poses several problems. Firstly, in order to achieve its purpose of misleading readers, a fake news story will try its best to appear genuine. Therefore, based solely on content, it is difficult to classify the story as fake. Secondly, using auxiliary information such as knowledge base and social engagements actually leads to another problem of verifying the quality of the data itself\cite{shu2017fake}. It is also impractical for the reviewers to analyze every single article, statement or message that is found in social media and decide whether it is a fake news. Due to these reasons, a number of researchers have even proposed that a better compromise could be a semi-automated system where an algorithm would augment a human reviewer to identify fake news \cite{conroy2015automatic, chen2015news, wiegand2016veracity}.
 
@@ -18,17 +18,17 @@ To summarize, we could say that there are somewhat important articles that needs
 
 % Research Problem
 \section{Research Problem} \label{intro:research}
-The concept of separating news into somewhat important news which needs to be verified and other slightly unimportant news could be in a way compared to the dichotomy of news into hard and soft. There are several definitions for hard and soft news \cite{reinemann2012hard, shoemaker2012news} but the one by Reinemann et al., 2012 is simple: \cite{reinemann2012hard},
+The concept of separating news into somewhat important news which needs to be verified and other slightly unimportant news could be in a way compared to the dichotomy of news into hard and soft. There are several definitions for hard and soft news \cite{reinemann2012hard, shoemaker2012news} but the one by Reinemann et al., 2012 is simple \cite{reinemann2012hard}: 
 
 \enquote{Hard news is defined as reports about politics, public administration, the economy, science, technology and related topics. Soft news is defined as reports about celebrities, human interest, sport and other entertainment-centred stories.}
 
-The categorization of text into hard news and soft news is inadequate for the purpose of identifying important article from unimportant ones because there might be articles in hard news which are not that important and soft news might also have articles which are important. So a new term "significant news" is introduced which is defined as follows:
+The categorization of text into hard news and soft news is inadequate for the purpose of identifying important article from unimportant ones because there might be articles in hard news which are not that important and soft news might also have articles which are important. So a new labelling "significant" is introduced which is defined as follows:
 
 \enquote{A text is labeled as significant if it affects a large number of people, changes the routines of daily life, and needs verification on the information presented.}
 
-Any article whose content affects large number of people, changes their routines of daily life, and needs to be verified could be labelled as significant news and all other articles which does not meet those criteria should be labelled as a non-significant news. 
+Any article whose content affects large number of people, changes their routines of daily life, and needs to be verified could be labelled as significant and all other articles which does not meet those criteria should be labelled as a non-significant. 
 
-Many research studies aim at detecting fake news. Although there already exist datasets for studying fake news, there is no dataset available for detection significant news as mentioned in this thesis. To study this problem, we work on the following problems:
+Many research studies aim at detecting fake news. Although there already exist datasets for studying fake news, there is no dataset available for detecting significant news as mentioned in this thesis. To study this problem, we work on the following problems:
 
 \begin{enumerate}
     \item Building a new dataset for significant news detection.
@@ -40,4 +40,4 @@ Especially, building the dataset for significant news detection was complex. Fin
 
 % Thesis Organization
 \section{Thesis Organization} \label{intro:organization}
-The remainder of the thesis is organized as follows. Chapter 2 covers brief background for the text classification problems and provides related work on research studies that are related to this thesis. Chapter 3 presents how the dataset is built and the methodology that was used to train, validate and test various classifier models. Chapter 4  provides the results and analysis of the experiments. And finally, Chapter 5 concludes the thesis with possible future directions that could be explored.
+The remainder of the thesis is organized as follows. Chapter 2 covers brief background for the text classification problems and provides research studies that are related to this thesis. Chapter 3 presents how the dataset is built and the methodology that was used to train, validate and test various classifier models. Chapter 4  provides the results and analysis of the experiments. And finally, Chapter 5 concludes the thesis with possible future directions that could be explored.
