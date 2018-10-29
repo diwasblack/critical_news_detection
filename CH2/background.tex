@@ -17,23 +17,23 @@ Tokenization is the first step in text processing which converts the stream of c
 \toprule 
 Text&Tokens\\
 \midrule 
-"Don't go there."&["Don't", "go", "there"]\\
+``Don't go there."&[``Don't", ``go", ``there"]\\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
 
 \subsection{Stop word filtering}
-Words such as "a", "the", "you", etc. are very common across English text documents, so the occurrence of these words is a poor indicator of whether the text belongs to a particular class. A common practice is to filter out these words for the feature set, and it has been empirically shown that filtering such words improves the performance on most text classification tasks \cite{silva2003importance}. These words that are filtered out during the processing are known as stop words. 
+Words such as ``a", ``the", ``you", etc. are very common across English text documents, so the occurrence of these words is a poor indicator of whether the text belongs to a particular class. A common practice is to filter out these words for the feature set, and it has been empirically shown that filtering such words improves the performance on most text classification tasks \cite{silva2003importance}. These words that are filtered out during the processing are known as stop words. 
 
 \subsection{Stemming}
-Stemming is the process of reducing the inflected words to their stem or root so that they represent the same feature during the processing. For example, the word "happiness" can be reduced to its stem "happy", and the word "loved" can also be reduced to its stem "love". By reducing the words to their stems, not only decreases the number of features, but also improves the feature set itself  as the inflected words of the same stem will be considered as a single feature instead of multiple features. 
+Stemming is the process of reducing the inflected words to their stem or root so that they represent the same feature during the processing. For example, the word ``happiness" can be reduced to its stem ``happy", and the word ``loved" can also be reduced to its stem ``love". By reducing the words to their stems, not only decreases the number of features, but also improves the feature set itself  as the inflected words of the same stem will be considered as a single feature instead of multiple features. 
 
 \subsection{Vector Space Model}
 The vector space model (VSM) or bag-of-words model represents a text as a collection of words without regards to the sequence in which they occur. In VSM, each unique word in the vocabulary is treated as a feature of the text because of which it usually ends up with a large number of features. For such cases, the feature extraction algorithms such as information gain, gini index, latent semantic indexing, linearized singular value decomposition, etc. can be used for selecting the relevant features from the original feature set \cite{aggarwal2012survey}.
 
 \subsection{n-gram models}
-The n-gram model of a text is a probabilistic model that represents text as a continuous sequence of $n$ words in a such way that the context of the word is captured along with the word itself. The VSM is a special case of the n-gram model where the value of $n$ is 1. Some of the n-gram representation of the text "The quick brown fox jumps." is shown in \tableref{tbl:ngram_representation}.
+The n-gram model of a text is a probabilistic model that represents text as a continuous sequence of $n$ words in a such way that the context of the word is captured along with the word itself. The VSM is a special case of the n-gram model where the value of $n$ is 1. Some of the n-gram representation of the text ``The quick brown fox jumps." is shown in \tableref{tbl:ngram_representation}.
 
 \begin{table}[h]
 \begin{center}
@@ -43,9 +43,9 @@ The n-gram model of a text is a probabilistic model that represents text as a co
 \toprule 
 Model&Representation\\
 \midrule 
-Unigram($n=1$)&"The", "quick", "brown", "fox", "jumps" \\
-Bigram($n=2$)&"The quick", "quick brown", "brown fox", "fox jumps" \\
-Trigram($n=3$)& "The quick brown", "quick brown fox", "brown fox jumps" \\
+Unigram($n=1$)& ``The", ``quick", ``brown", ``fox", ``jumps" \\
+Bigram($n=2$)& ``The quick", ``quick brown", ``brown fox", ``fox jumps" \\
+Trigram($n=3$)& ``The quick brown", ``quick brown fox", ``brown fox jumps" \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -94,7 +94,7 @@ celebrities, human interest, sport, entertainment, etc & Soft\\
 
 Lately, the fake news detection problem has received a lot of interest from researchers. A fake news detection algorithm could use any combination of information among news content, social content (e.g. user's engagement), and dynamic information (e.g. news propagation) in order to perform the prediction \cite{shu2018fakenewsnet}; however, even with a multitude of such information, it is not easy to construct an automated algorithm for fake news detection\cite{shu2017fake}.
 
-One of the simplest models that was successfully implemented for fake news detection is the naive bayes classifier which was trained on a modified BuzzFeedNews\footnote{\url{https://github.com/BuzzFeedNews/2016-10-facebook-fact-check}} dataset containing Facebook posts of news articles \cite{granik2017fake}. The original dataset consists of four labels for truthfulness rating which are distributed as shown in \tableref{tbl:buzzfeed_dataset}. In the research, the number of classes were reduced to two by discarding articles which were labelled as "mixture of true and false" or "no factual content" along with articles without any text in them. The classifier was then trained using the remaining 1771 news articles for the binary classification problem. The model was then able to achieve a test accuracy of 74 percent which is a good result given the simplicity of the model.
+One of the simplest models that was successfully implemented for fake news detection is the naive bayes classifier which was trained on a modified BuzzFeedNews\footnote{\url{https://github.com/BuzzFeedNews/2016-10-facebook-fact-check}} dataset containing Facebook posts of news articles \cite{granik2017fake}. The original dataset consists of four labels for truthfulness rating which are distributed as shown in \tableref{tbl:buzzfeed_dataset}. In the research, the number of classes were reduced to two by discarding articles which were labelled as ``mixture of true and false" or ``no factual content" along with articles without any text in them. The classifier was then trained using the remaining 1771 news articles for the binary classification problem. The model was then able to achieve a test accuracy of 74 percent which is a good result given the simplicity of the model.
 
 \begin{table}[h]
 \begin{center}
@@ -153,7 +153,7 @@ Support Vector Machine&76.2\\
 \end{center}
 \end{table}
 
-However, for the LIAR\cite{wang2017liar} dataset the performance of the standard classifiers are a bit underwhelming as shown in \tableref{tbl:liar_performance} \cite{wang2017liar}.  Note that this is a multi-class classification rather than a binary classification due to the number of labels in the dataset. Nevertheless, the accuracy is not impressive and this could be due to the dataset.  The LIAR dataset is human-labeled short statements obtained from POLITIFACT\footnote{\url{https://www.politifact.com/}} API which contains six labels assigned based on their truthfulness rating: "pants-fire", "false", "barely-true", "half-true", "mostly-true", and "true". The distribution of the labels in the dataset is mostly balanced except for 1050 "pants-fire" cases while for all other labels it ranges from 2063 to 2638. Since the articles are short and require fact-checking to determine their truthfulness, it is much harder for the classifier to perform the prediction.
+However, for the LIAR\cite{wang2017liar} dataset the performance of the standard classifiers are a bit underwhelming as shown in \tableref{tbl:liar_performance} \cite{wang2017liar}.  Note that this is a multi-class classification rather than a binary classification due to the number of labels in the dataset. Nevertheless, the accuracy is not impressive and this could be due to the dataset.  The LIAR dataset is human-labeled short statements obtained from POLITIFACT\footnote{\url{https://www.politifact.com/}} API which contains six labels assigned based on their truthfulness rating: ``pants-fire", ``false", ``barely-true", ``half-true", ``mostly-true", and ``true". The distribution of the labels in the dataset is mostly balanced except for 1050 ``pants-fire" cases while for all other labels it ranges from 2063 to 2638. Since the articles are short and require fact-checking to determine their truthfulness, it is much harder for the classifier to perform the prediction.
 
 \begin{table}[h]
 \begin{center}
