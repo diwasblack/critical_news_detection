@@ -51,8 +51,8 @@ Trigram($n=3$)& ``The quick brown", ``quick brown fox", ``brown fox jumps" \\
 \end{center}
 \end{table}
 
-\subsection{TF-IDF}
-TF-IDF\cite{sparck1972statistical} is a rather simple feature weighing scheme that assigns some weight to a term based on its occurrence in the text and its importance in the corpus. TF-IDF for a term $t$ in a document $d$ is calculated as a product of two terms: Term Frequency ($tf$) and Inverse Document Frequency ($idf$). 
+\subsection{Term Frequency-Inverse Document Frequency}
+Term Frequency-Inverse Document Frequency (TF-IDF)\cite{sparck1972statistical} is a rather simple feature weighing scheme that assigns some weight to a term based on its occurrence in the text and its importance in the corpus. TF-IDF for a term $t$ in a document $d$ is calculated as a product of two terms: Term Frequency ($tf$) and Inverse Document Frequency ($idf$). 
 \begin{equation}
     \label{eq:tf_idf_equation}
     tfidf(t, d) = tf(t, d) * idf(t)
@@ -94,7 +94,7 @@ celebrities, human interest, sport, entertainment, etc & Soft\\
 
 Lately, the fake news detection problem has received a lot of interest from researchers. A fake news detection algorithm could use any combination of information among news content, social content (e.g. user's engagement), and dynamic information (e.g. news propagation) in order to perform the prediction \cite{shu2018fakenewsnet}; however, even with a multitude of such information, it is not easy to construct an automated algorithm for fake news detection\cite{shu2017fake}.
 
-One of the simplest models that was successfully implemented for fake news detection is the naive bayes classifier which was trained on a modified BuzzFeedNews\footnote{\url{https://github.com/BuzzFeedNews/2016-10-facebook-fact-check}} dataset containing Facebook posts of news articles \cite{granik2017fake}. The original dataset consists of four labels for truthfulness rating which are distributed as shown in \tableref{tbl:buzzfeed_dataset}. In the research, the number of classes were reduced to two by discarding articles which were labelled as ``mixture of true and false" or ``no factual content" along with articles without any text in them. The classifier was then trained using the remaining 1771 news articles for the binary classification problem. The model was then able to achieve a test accuracy of 74 percent which is a good result given the simplicity of the model.
+One of the simplest models that was successfully implemented for fake news detection is the naive bayes classifier which was trained on a modified BuzzFeedNews\footnote{\url{https://github.com/BuzzFeedNews/2016-10-facebook-fact-check}} dataset containing Facebook posts of news articles \cite{granik2017fake}. The original dataset consists of four labels for truthfulness rating which are distributed as shown in \tableref{tbl:buzzfeed_dataset}. In the research, the number of classes were reduced to two by discarding articles which were labelled as ``mixture of true and false" or ``no factual content" along with articles without any text in them. The classifier was then trained and evaluated using the remaining 1771 news articles for the binary classification problem. The model was able to achieve an accuracy of 74 percent for a test set with 927 samples.
 
 \begin{table}[h]
 \begin{center}
@@ -115,7 +115,7 @@ no factual content&264 \\
 \end{center}
 \end{table}
 
-The research by Gilda, 2017 provides the most exhaustive performance comparison of standard classification algorithms for the fake news detection problem \cite{gilda2017evaluating}. The research contrasts the performance of various classification algorithms  (support vector machines (SVM), stochastic gradient descent (SGD), random forest, bounded decision trees, and gradient boosting) by training them on a modified Signal Media news dataset \cite{corney2016million} which has labeled articles from verified reliable sources as truthful and articles from verified unreliable sources as fake. The distribution of the labelled dataset that was obtained from the original unlabelled 1 million articles is shown in \tableref{tbl:reduced_signal_media_dataset}. The performance comparison of the standard classifiers on the new dataset when using a TF-IDF as the feature set is shown in \tableref{tbl:signal_media_performance} \cite{gilda2017evaluating}. It empirically shows that most of the standard classifiers work reasonably well for fake news detection on the Signal Media dataset.
+The research by Gilda, 2017 provides the most exhaustive performance comparison of standard classification algorithms for the fake news detection problem \cite{gilda2017evaluating}. The research contrasts the performance of various classification algorithms  (support vector machines (SVM), stochastic gradient descent, random forest, bounded decision trees, and gradient boosting) by training them on a modified Signal Media news dataset \cite{corney2016million} which has labeled articles from verified reliable sources as truthful and articles from verified unreliable sources as fake. The distribution of the labelled dataset that was obtained from the original unlabelled 1 million articles is shown in \tableref{tbl:reduced_signal_media_dataset}. The labelled dataset was randomly separated into training and test set using a 90/10 split. The performance comparison of the classifiers on the test set when using the TF-IDF algorithm as the feature set is shown in \tableref{tbl:signal_media_performance} \cite{gilda2017evaluating}. It empirically shows that most of the standard classifiers work reasonably well for fake news detection on the Signal Media dataset.
 
 \begin{table}[h]
 \begin{center}
@@ -136,7 +136,7 @@ truthful&7834 \\
 
 \begin{table}[h]
 \begin{center}
-\caption{Performance of models in reduced Signal Media dataset}
+\caption{Performance of models in reduced Signal Media dataset for a 90/10 split}
 \label{tbl:signal_media_performance}
 \begin{tabular}{lr}
 \toprule 
@@ -153,7 +153,25 @@ Support Vector Machine&76.2\\
 \end{center}
 \end{table}
 
-However, for the LIAR\cite{wang2017liar} dataset the performance of the standard classifiers are a bit underwhelming as shown in \tableref{tbl:liar_performance} \cite{wang2017liar}.  Note that this is a multi-class classification rather than a binary classification due to the number of labels in the dataset. Nevertheless, the accuracy is not impressive and this could be due to the dataset.  The LIAR dataset is human-labeled short statements obtained from POLITIFACT\footnote{\url{https://www.politifact.com/}} API which contains six labels assigned based on their truthfulness rating: ``pants-fire", ``false", ``barely-true", ``half-true", ``mostly-true", and ``true". The distribution of the labels in the dataset is mostly balanced except for 1050 ``pants-fire" cases while for all other labels it ranges from 2063 to 2638. Since the articles are short and require fact-checking to determine their truthfulness, it is much harder for the classifier to perform the prediction.
+However, for the LIAR\cite{wang2017liar} dataset with statistics shown in \tableref{tbl:liar_statistics}, the performance of the standard classifiers are a bit underwhelming as shown in \tableref{tbl:liar_performance} \cite{wang2017liar}. The LIAR dataset is human-labeled short statements obtained from POLITIFACT\footnote{\url{https://www.politifact.com/}} application programming interface (API) which contains six labels assigned based on their truthfulness rating: ``pants-fire", ``false", ``barely-true", ``half-true", ``mostly-true", and ``true". The distribution of the labels in the dataset is mostly balanced except for 1050 ``pants-fire" cases while for all other labels it ranges from 2063 to 2638. Note that this is a multi-class classification rather than a binary classification due to the number of labels in the dataset. Nevertheless, the accuracy is not impressive and this could be due to the dataset
+which has articles that are short and requires fact-checking to determine the truthfulness.
+
+\begin{table}[h]
+\begin{center}
+\caption{LIAR dataset statistics}
+\label{tbl:liar_statistics}
+\begin{tabular}{lr}
+\toprule 
+Set & Number of samples \\
+\midrule 
+Training & 10269 \\
+Validation & 1284 \\
+Testing & 1283 \\
+\bottomrule
+Total & 12836
+\end{tabular}
+\end{center}
+\end{table}
 
 \begin{table}[h]
 \begin{center}
@@ -164,30 +182,28 @@ However, for the LIAR\cite{wang2017liar} dataset the performance of the standard
 Model&Test Accuracy\\
 \midrule 
 Logistic Regression&24.7\\
-SVM&25.5\\
-Bidirectional LSTM&23.3\\
-CNN&27.0\\
+Support Vector Machine&25.5\\
+Bidirectional Long Short-Term Memory&23.3\\
+Convolution Neural Network&27.0\\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
 
-Unsatisfactory performance of detecting fake news solely from news content has led researchers to investigate the relation between users on social media and news \cite{shu2018understanding}. The research suggested that the features of users who were more likely to trust fake news over real news were different from those of users who were more likely to trust real news. The TCNN-URG model for fake news detection by Qian et. al., 2018 was able to use this information to its advantage. The model combined the information from news content with dynamic information (historical responses by the user) of the article to perform the prediction. The performance of the model was then compared with standard classification techniques by training them on the Weibo dataset\cite{ma2016detecting} which consisted of 2313 rumors and 2351 non-rumor articles obtained using the API of Sina Weibo. The performance achieved by the models is shown in \tableref{tbl:weibo_performance} \cite{qian2018neural}. It was observed that TCNN-URG model performed well compared to the previous models that only utilized the information from news content.
+Unsatisfactory performance of detecting fake news solely from news content has led researchers to investigate the relation between users on social media and news \cite{shu2018understanding}. The research suggested that the features of users who were more likely to trust fake news over real news were different from those of users who were more likely to trust real news. The two level convolution neural network-user response generator (TCNN-URG) model for fake news detection by Qian et. al., 2018 was able to use this information to its advantage. The model combined the information from news content with dynamic information (historical responses by the user) of the article to perform the prediction. The performance of the model was then compared with standard classification techniques by training them on the Weibo dataset\cite{ma2016detecting} which consisted of 2313 rumors and 2351 non-rumor articles obtained using the API of Sina Weibo. The performance achieved by the models when using a train-test split of 90/10 is shown in \tableref{tbl:weibo_performance} \cite{qian2018neural}. It was observed that TCNN-URG model performed well compared to the previous models that only utilized the information from news content.
 
 \begin{table}[h]
 \begin{center}
-\caption{Performance of models in Weibo dataset}
+\caption{Performance of models in Weibo dataset with 90/10 split}
 \label{tbl:weibo_performance}
 \begin{tabular}{lccc}
 \toprule 
 \rule[-1pt]{0pt}{14pt}Model&Test Accuracy\\
 \midrule 
-SVM with LIWC&66.06\\
-SVM with POS-gram&74.77\\
-SVM with 1-gram&84.76\\
-CNN&86.23\\
-TCNN&88.08\\
-TCNN-URG&89.84\\
+Support Vector Machine with 1-gram&84.76\\
+Convolution Neural Network&86.23\\
+Two Level Convolution Network&88.08\\
+Two Level Convolution Network-User Response Generator&89.84\\
 \bottomrule
 \end{tabular}
 \end{center}

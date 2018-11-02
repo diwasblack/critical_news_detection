@@ -1,7 +1,7 @@
 \chapter{Experiments and Results} \label{result}
 Once the labelled dataset is ready, the classifier models can be trained on the training set and evaluated using the test set. However, it is better to first visualize the data and then proceed with the training.
 
-1000 dimensional TF-IDF vector can be visualized if the number of features is reduced to 2 or 3. The feature reduction could be done by using various dimensionality reduction algorithms \cite{tenenbaum2000global, roweis2000nonlinear}. The t-SNE\cite{maaten2008visualizing} is an algorithm  is a feature reduction method suited well for the purpose of data visualization. In this thesis, the algorithm takes the TF-IDF vectors obtained from the text processing step and produces a 2D vector representation for each document. The reduced vectors were then plotted using the matplotlib\cite{hunter2007matplotlib} python library.
+1000 dimensional TF-IDF vector can be visualized if the number of features is reduced to 2 or 3. The feature reduction could be done by using various dimensionality reduction algorithms \cite{tenenbaum2000global, roweis2000nonlinear}. The t-distributed Stochastic Neighbor Embedding (t-SNE)\cite{maaten2008visualizing} is an algorithm  is a feature reduction method suited well for the purpose of data visualization. In this thesis, the algorithm takes the TF-IDF vectors obtained from the text processing step and produces a 2D vector representation for each document. The reduced vectors were then plotted using the matplotlib\cite{hunter2007matplotlib} python library.
 
 The dataset visualization indicates that the data does not have significant problems for classification.  Once the classifiers were trained, their performance can be evaluated on the test set.
 
@@ -10,12 +10,12 @@ The dataset visualization indicates that the data does not have significant prob
 
 \begin{figure}[h]
     \cfig{4}{data_visualization.png}{5}
-    \caption{Dataset visualization using t-SNE}
+    \caption{Dataset visualization using t-distributed stochastic neighbor embedding}
     \label{fig:dataset}
 \end{figure}
 
 \section{Classification Performance}
-The performance of the classifiers for five separate runs on the significant news dataset is shown in \tableref{tbl:classifiers_performance} and the average performance of those runs is shown in \tableref{tbl:average_performance}. The results show that on average, the models achieve a reasonably high performance which are comparable to one another; furthermore, it also shows that the neural network model performs slightly better than rest of the models.
+The performance of the classifiers for five separate runs on the dataset described in   \tableref{tbl:dataset_statistics} is shown in \tableref{tbl:classifiers_performance} and the average performance of those runs is shown in \tableref{tbl:average_performance}. The results show that on average, the models achieve a reasonably high performance which are comparable to one another; furthermore, it also shows that the neural network model performs slightly better than rest of the models.
 
 \begin{table}
 \begin{center}
