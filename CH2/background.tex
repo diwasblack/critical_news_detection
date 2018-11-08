@@ -29,7 +29,7 @@ Words such as ``a", ``the", ``you", etc. are very common across English text doc
 \subsection{Stemming}
 Stemming is the process of reducing the inflected words to their stem or root so that they represent the same feature during the processing. For example, the word ``happiness" can be reduced to its stem ``happy", and the word ``loved" can also be reduced to its stem ``love". By reducing the words to their stems, not only decreases the number of features, but also improves the feature set itself  as the inflected words of the same stem will be considered as a single feature instead of multiple features. 
 
-\subsection{Vector Space Model}
+\subsection{Vector space model}
 The vector space model (VSM) or bag-of-words model represents a text as a collection of words without regards to the sequence in which they occur. In VSM, each unique word in the vocabulary is treated as a feature of the text because of which it usually ends up with a large number of features. For such cases, the feature extraction algorithms such as information gain, gini index, latent semantic indexing, linearized singular value decomposition, etc. can be used for selecting the relevant features from the original feature set \cite{aggarwal2012survey}.
 
 \subsection{n-gram models}
@@ -51,7 +51,7 @@ Trigram($n=3$)& ``The quick brown", ``quick brown fox", ``brown fox jumps" \\
 \end{center}
 \end{table}
 
-\subsection{Term Frequency-Inverse Document Frequency}
+\subsection{Term frequency-inverse document frequency}
 Term Frequency-Inverse Document Frequency (TF-IDF)\cite{sparck1972statistical} is a rather simple feature weighing scheme that assigns some weight to a term based on its occurrence in the text and its importance in the corpus. TF-IDF for a term $t$ in a document $d$ is calculated as a product of two terms: Term Frequency ($tf$) and Inverse Document Frequency ($idf$). 
 \begin{equation}
     \label{eq:tf_idf_equation}
@@ -67,7 +67,7 @@ The $tf$ for a term in a document is the count of the term in the document and $
 \noindent
 where $N$ is the number of total number of documents and $df(t)$ is the number of documents that contains the term $t$.
 
-\subsection{Word Embedding Models}
+\subsection{Word embedding models}
 Lately, there has been a significant interest and development in word embedding models \cite{mikolov2013distributed, pennington2014glove, bojanowski2017enriching}. In a word embedding model, each word is represented by a vector in a feature space such that similar words will be represented by similar vectors\cite{mikolov2013distributed}. The word vectors are then combined to create a vector representation of the text which by definition will force two texts that are similar in content but different in words to have a similar vector representation.
 
 % Related Work
@@ -136,7 +136,7 @@ truthful&7834 \\
 
 \begin{table}[h]
 \begin{center}
-\caption{Performance of models in reduced Signal Media dataset for a 90/10 split}
+\caption{Performance of models in reduced Signal Media dataset}
 \label{tbl:signal_media_performance}
 \begin{tabular}{lr}
 \toprule 
@@ -194,7 +194,7 @@ Unsatisfactory performance of detecting fake news solely from news content has l
 
 \begin{table}[h]
 \begin{center}
-\caption{Performance of models in Weibo dataset with 90/10 split}
+\caption{Performance of models in Weibo dataset}
 \label{tbl:weibo_performance}
 \begin{tabular}{lccc}
 \toprule 
