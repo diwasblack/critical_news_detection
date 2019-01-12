@@ -139,7 +139,6 @@
 %   Define my Graduate Dean
 \uahgraddean{David Berkowitz}
 
-
 %   Let's get started (Finally!)
 \begin{document}
 
@@ -171,7 +170,6 @@
 %   Include my acknowledgements
 \include{./FRONT/acknowledgments}
 
-
 %   Make a Table of Contents
 \tableofcontents
 
@@ -191,12 +189,12 @@
 %   issue command after last frontmatter TOC entry
 %   cannot come directly before first chapter \include
 \addchapheadtotoc
-
-%   Set my dedication (optional - comment out if unwanted)
-%\dedication{}
+    
+% Blank page
+% TOC doesnot work properly without this page
+\dedication{This page is intentionally left blank.}
 
 %   Make Epigraph Page (Optional - comment out if unwanted)
-
 \clearpage
 
 \pagestyle{myheadings} \markright{}
@@ -214,15 +212,11 @@
 %   folders.  Also, you can add or subtract chapters as you like -
 %   just make sure that the address and filenames below match your
 %   file structure.
-
  \include{./CH1/introduction}
  \include{./CH2/background}
  \include{./CH3/method}
  \include{./CH4/results}
  \include{./CH5/conclusion}
- 
- %   Include my bibliography
-\include{./BIBLIOGRAPHY/bibliography}
 
 %   This set of LaTeX files uses the Appendix Package to handle
 %   the appendices - it creates the "Appendices" page and puts
@@ -251,8 +245,10 @@
 %%   Here comes the stuff after the main content
 %%   turn off appendix environment/package first:
 \end{appendices}
-
 \backmatter
+
+ %   Include my bibliography
+\include{./BIBLIOGRAPHY/bibliography}
 
 %   Include my biography
 %\include{./BACK/biography}
